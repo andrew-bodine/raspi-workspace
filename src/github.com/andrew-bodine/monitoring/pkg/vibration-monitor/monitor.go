@@ -1,14 +1,13 @@
 package vibration_monitor
 
 import (
-	"errors"
 	"flag"
-	"fmt"
 	"time"
 
 	"github.com/andrew-bodine/monitoring/pkg/monitors"
 	uuid "github.com/satori/go.uuid"
 	rpio "github.com/stianeikeland/go-rpio"
+	"go.uber.org/zap"
 )
 
 var (
@@ -19,7 +18,8 @@ var (
 
 func NewConfigFromFlags() (*VibrationMonitorConfig, error) {
 	if *VibrPinFlag == -1 {
-		return nil, errors.New("Required flag --vibrPin missing, please specify and try again.")
+		return nil, nil
+		// return nil, errors.New("Required flag --vibrPin missing, please specify and try again.")
 	}
 
 	// Get a reference to the desired pin.
@@ -40,6 +40,7 @@ func NewConfigFromFlags() (*VibrationMonitorConfig, error) {
 // Collection of configurable settings on that are common amongst vibration
 // monitor implementations.
 type VibrationMonitorConfig struct {
+	Logger *zap.Logger
 
 	// Represents the GPIO pin that this monitor is pay attention to.
 	GPIOPin monitors.GoRaspberryPiIOPin
@@ -83,8 +84,10 @@ type vibrationMonitor struct {
 
 // Implement the monitors.Monitor interface.
 func (vm *vibrationMonitor) Run(stopCh <-chan struct{}) error {
-	log("INFO", "Starting vibration monitor", vm.uid)
-	defer log("INFO", "Stopping vibration monitor", vm.uid)
+	vm.config.Logger.Info("Starting vibration monitor", zap.String("uid", vm.uid))
+	defer vm.config.Logger.Info("Stopping vibration monitor", zap.String("uid", vm.uid))
+
+	timer := time.NewTimer(vm.config.GPIOPinPollRate)
 
 	for {
 		select {
@@ -92,12 +95,12 @@ func (vm *vibrationMonitor) Run(stopCh <-chan struct{}) error {
 			if !ok {
 				return nil
 			}
-		default:
+		case _ = <-timer.C:
 			break
 		}
 
 		if vm.config.GPIOPin.Read() == rpio.High {
-			log("DEBUG", "Pin is reading as High.")
+			vm.config.Logger.Debug("Pin is reading as High.")
 
 			switch vm.state {
 			case VibrationMonitorStateStill:
@@ -108,24 +111,26 @@ func (vm *vibrationMonitor) Run(stopCh <-chan struct{}) error {
 				select {
 				case _ = <-vm.vibrationPeriodTimer.C:
 					vm.state = VibrationMonitorStateVibrating
-					log("INFO", "Vibration period begins after initial detection grace period", vm.config.MinVibrationPeriod)
+					vm.config.Logger.Info("Vibration period begins after initial detection grace period",
+						zap.Duration("minVibrationPeriod", vm.config.MinVibrationPeriod),
+					)
 				default:
 					break
 				}
 				break
 			}
 		} else {
-			log("DEBUG", "Pin is reading as Low.")
+			vm.config.Logger.Debug("Pin is reading as Low.")
 
 			switch vm.state {
 			case VibrationMonitorStateVibrating:
-				log("INFO", "Vibration period ends")
+				vm.config.Logger.Info("Vibration period ends")
 			}
 
 			vm.state = VibrationMonitorStateStill
 		}
 
-		time.Sleep(vm.config.GPIOPinPollRate)
+		timer = time.NewTimer(vm.config.GPIOPinPollRate)
 	}
 
 	return nil
@@ -134,9 +139,4 @@ func (vm *vibrationMonitor) Run(stopCh <-chan struct{}) error {
 // Implement the monitors.Monitor interface.
 func (vm *vibrationMonitor) GetState() interface{} {
 	return vm.state
-}
-
-func log(level string, msgs ...interface{}) {
-	now := time.Now()
-	fmt.Println(level, now.String(), msgs)
 }

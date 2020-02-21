@@ -1,4 +1,4 @@
-package main_test
+package monitors_test
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestMonitoring(t *testing.T) {
+func TestMonitors(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Monitoring Integration Test Suite")
+	RunSpecs(t, "Monitors Unit Test Suite")
 }

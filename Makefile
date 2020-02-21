@@ -1,7 +1,7 @@
 # This is the Makefile for raspi-workspace.
 
-# ginkgo:
-# 	go install github.com/onsi/ginkgo/ginkgo
+ginkgo:
+	go install github.com/onsi/ginkgo/ginkgo
 
 # test: unit-tests
 #
@@ -22,10 +22,14 @@ build:
 
 # Install all necessary local golang dependencies.
 go-deps:
-	go get github.com/onsi/ginkgo/ginkgo
+	go get github.com/onsi/ginkgo
+	go get github.com/onsi/gomega
 	go get github.com/stianeikeland/go-rpio
 	go get github.com/satori/go.uuid
 	go get go.uber.org/zap
 
 clean:
 	rm -rf build
+
+clean-all: clean
+	rm -rf vendor/*

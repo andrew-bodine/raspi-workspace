@@ -21,6 +21,7 @@ type GoRaspberryPiIOPin interface {
 	Read() gorpio.State
 	Pull(pull gorpio.Pull)
 	PullUp()
+	PullDown()
 	PullOff()
 	Detect(edge gorpio.Edge)
 	EdgeDetected() bool
