@@ -80,6 +80,8 @@ func (tm *temperatureMonitor) Run(stopCh <-chan struct{}) error {
 
 	timer := time.NewTimer(tm.config.GPIOPinPollRate)
 
+	var lastTempC, lastHumidity float64
+
 	for {
 		select {
 		case _, ok := <-stopCh:
@@ -87,30 +89,44 @@ func (tm *temperatureMonitor) Run(stopCh <-chan struct{}) error {
 				return nil
 			}
 		case _ = <-timer.C:
-			break
-		}
 
-		result := tm.dht11.ReadCurrentTempAndHumidity()
-		if result.Error == ErrorNoError {
-			// (°C × 9/5) + 32 = °F
-			currTempC, err := strconv.ParseFloat(fmt.Sprintf("%d.%d", int(result.Temperature[0]), int(result.Temperature[1])), 32)
-			if err != nil {
-				tm.config.Logger.Debug("Failed to parse float from sensor reading", zap.Error(err))
-			} else {
-				currTempF := currTempC*(9/5) + 32
+			// result := tm.dht11.ReadCurrentTempAndHumidity()
+			result := tm.dht11.Read()
+
+			timer = time.NewTimer(tm.config.GPIOPinPollRate)
+
+			if result.Error != ErrorNoError {
+				tm.config.Logger.Debug("Failed to read temperature and humidity sensor",
+					zap.String("error", string(result.Error)),
+					zap.String("message", result.Message),
+				)
+				continue
+			}
+
+			currTempC, tempConvErr := strconv.ParseFloat(fmt.Sprintf("%d.%d", int(result.Temperature[0]), int(result.Temperature[1])), 32)
+			currHumidity, humConvErr := strconv.ParseFloat(fmt.Sprintf("%d.%d", int(result.Humidity[0]), int(result.Humidity[1])), 32)
+
+			if tempConvErr != nil || humConvErr != nil {
+				tm.config.Logger.Debug("Failed to parse floats from sensor readings",
+					zap.Error(tempConvErr),
+					zap.Error(humConvErr),
+				)
+				continue
+			}
+
+			if lastTempC != currTempC || lastHumidity != currHumidity {
+				// Convert °C to °F.
 				tm.config.Logger.Info("Current sensor readings",
-					zap.String("temperature", fmt.Sprintf("%.f°F", currTempF)),
+					zap.String("temperature", fmt.Sprintf("%.f°F", currTempC*(9/5)+32)),
 					zap.String("humidity", fmt.Sprintf("%d.%d%%", int(result.Humidity[0]), int(result.Humidity[1]))),
 				)
-			}
-		} else {
-			tm.config.Logger.Debug("Failed to read temperature and humidity sensor",
-				zap.String("error", string(result.Error)),
-				zap.String("message", result.Message),
-			)
-		}
 
-		timer = time.NewTimer(tm.config.GPIOPinPollRate)
+				lastTempC = currTempC
+				lastHumidity = currHumidity
+			}
+
+			break
+		}
 	}
 
 	return nil
