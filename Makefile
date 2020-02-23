@@ -3,10 +3,10 @@
 ginkgo:
 	go install github.com/onsi/ginkgo/ginkgo
 
-# test: unit-tests
-#
-# unit-tests: ginkgo fakes
-# 	./scripts/run-unit-tests.bash
+test: unit-tests
+
+unit-tests: ginkgo
+	./scripts/run-unit-tests.bash
 
 # integration-tests:
 # 	./scripts/run-integration-tests
