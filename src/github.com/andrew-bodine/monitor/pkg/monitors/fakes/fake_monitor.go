@@ -4,7 +4,7 @@ package fakes
 import (
 	"sync"
 
-	"github.com/andrew-bodine/monitoring/pkg/monitors"
+	"github.com/andrew-bodine/monitor/pkg/monitors"
 )
 
 type FakeMonitor struct {

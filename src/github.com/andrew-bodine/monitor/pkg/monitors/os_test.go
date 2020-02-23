@@ -4,7 +4,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	"github.com/andrew-bodine/monitoring/pkg/monitors"
+	"github.com/andrew-bodine/monitor/pkg/monitors"
 )
 
 var _ = Describe("SetupSignalHandler", func() {

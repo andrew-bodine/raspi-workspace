@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/andrew-bodine/monitoring/pkg/monitors"
+	"github.com/andrew-bodine/monitor/pkg/monitors"
 	uuid "github.com/satori/go.uuid"
 	"go.uber.org/zap"
 )

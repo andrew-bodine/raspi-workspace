@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestMonitoring(t *testing.T) {
+func TestMonitor(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Monitoring Integration Test Suite")
+	RunSpecs(t, "Raspi Monitor Integration Test Suite")
 }

@@ -4,35 +4,34 @@ package fakes
 import (
 	"sync"
 
-	"github.com/andrew-bodine/monitoring/pkg/monitors"
-	"go.uber.org/zap"
+	"github.com/andrew-bodine/monitor/pkg/monitors"
 )
 
-type FakeConfigWithFlagsAndLoggerConstructor struct {
-	Stub        func(*zap.Logger) (interface{}, error)
+type FakeMonitorBuilder struct {
+	Stub        func(interface{}) (monitors.Monitor, error)
 	mutex       sync.RWMutex
 	argsForCall []struct {
-		arg1 *zap.Logger
+		arg1 interface{}
 	}
 	returns struct {
-		result1 interface{}
+		result1 monitors.Monitor
 		result2 error
 	}
 	returnsOnCall map[int]struct {
-		result1 interface{}
+		result1 monitors.Monitor
 		result2 error
 	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeConfigWithFlagsAndLoggerConstructor) Spy(arg1 *zap.Logger) (interface{}, error) {
+func (fake *FakeMonitorBuilder) Spy(arg1 interface{}) (monitors.Monitor, error) {
 	fake.mutex.Lock()
 	ret, specificReturn := fake.returnsOnCall[len(fake.argsForCall)]
 	fake.argsForCall = append(fake.argsForCall, struct {
-		arg1 *zap.Logger
+		arg1 interface{}
 	}{arg1})
-	fake.recordInvocation("ConfigWithFlagsAndLoggerConstructor", []interface{}{arg1})
+	fake.recordInvocation("MonitorBuilder", []interface{}{arg1})
 	fake.mutex.Unlock()
 	if fake.Stub != nil {
 		return fake.Stub(arg1)
@@ -43,51 +42,51 @@ func (fake *FakeConfigWithFlagsAndLoggerConstructor) Spy(arg1 *zap.Logger) (inte
 	return fake.returns.result1, fake.returns.result2
 }
 
-func (fake *FakeConfigWithFlagsAndLoggerConstructor) CallCount() int {
+func (fake *FakeMonitorBuilder) CallCount() int {
 	fake.mutex.RLock()
 	defer fake.mutex.RUnlock()
 	return len(fake.argsForCall)
 }
 
-func (fake *FakeConfigWithFlagsAndLoggerConstructor) Calls(stub func(*zap.Logger) (interface{}, error)) {
+func (fake *FakeMonitorBuilder) Calls(stub func(interface{}) (monitors.Monitor, error)) {
 	fake.mutex.Lock()
 	defer fake.mutex.Unlock()
 	fake.Stub = stub
 }
 
-func (fake *FakeConfigWithFlagsAndLoggerConstructor) ArgsForCall(i int) *zap.Logger {
+func (fake *FakeMonitorBuilder) ArgsForCall(i int) interface{} {
 	fake.mutex.RLock()
 	defer fake.mutex.RUnlock()
 	return fake.argsForCall[i].arg1
 }
 
-func (fake *FakeConfigWithFlagsAndLoggerConstructor) Returns(result1 interface{}, result2 error) {
+func (fake *FakeMonitorBuilder) Returns(result1 monitors.Monitor, result2 error) {
 	fake.mutex.Lock()
 	defer fake.mutex.Unlock()
 	fake.Stub = nil
 	fake.returns = struct {
-		result1 interface{}
+		result1 monitors.Monitor
 		result2 error
 	}{result1, result2}
 }
 
-func (fake *FakeConfigWithFlagsAndLoggerConstructor) ReturnsOnCall(i int, result1 interface{}, result2 error) {
+func (fake *FakeMonitorBuilder) ReturnsOnCall(i int, result1 monitors.Monitor, result2 error) {
 	fake.mutex.Lock()
 	defer fake.mutex.Unlock()
 	fake.Stub = nil
 	if fake.returnsOnCall == nil {
 		fake.returnsOnCall = make(map[int]struct {
-			result1 interface{}
+			result1 monitors.Monitor
 			result2 error
 		})
 	}
 	fake.returnsOnCall[i] = struct {
-		result1 interface{}
+		result1 monitors.Monitor
 		result2 error
 	}{result1, result2}
 }
 
-func (fake *FakeConfigWithFlagsAndLoggerConstructor) Invocations() map[string][][]interface{} {
+func (fake *FakeMonitorBuilder) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
 	fake.mutex.RLock()
@@ -99,7 +98,7 @@ func (fake *FakeConfigWithFlagsAndLoggerConstructor) Invocations() map[string][]
 	return copiedInvocations
 }
 
-func (fake *FakeConfigWithFlagsAndLoggerConstructor) recordInvocation(key string, args []interface{}) {
+func (fake *FakeMonitorBuilder) recordInvocation(key string, args []interface{}) {
 	fake.invocationsMutex.Lock()
 	defer fake.invocationsMutex.Unlock()
 	if fake.invocations == nil {
@@ -111,4 +110,4 @@ func (fake *FakeConfigWithFlagsAndLoggerConstructor) recordInvocation(key string
 	fake.invocations[key] = append(fake.invocations[key], args)
 }
 
-var _ monitors.ConfigWithFlagsAndLoggerConstructor = new(FakeConfigWithFlagsAndLoggerConstructor).Spy
+var _ monitors.MonitorBuilder = new(FakeMonitorBuilder).Spy

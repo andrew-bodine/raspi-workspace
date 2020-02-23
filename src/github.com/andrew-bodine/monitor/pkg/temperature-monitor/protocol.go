@@ -6,7 +6,7 @@ import (
 
 	rpio "github.com/stianeikeland/go-rpio"
 
-	"github.com/andrew-bodine/monitoring/pkg/monitors"
+	"github.com/andrew-bodine/monitor/pkg/monitors"
 )
 
 // DHT11Sensor

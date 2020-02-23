@@ -7,7 +7,7 @@ import (
 	rpio "github.com/stianeikeland/go-rpio"
 	"go.uber.org/zap"
 
-	"github.com/andrew-bodine/monitoring/pkg/monitors"
+	"github.com/andrew-bodine/monitor/pkg/monitors"
 )
 
 var (

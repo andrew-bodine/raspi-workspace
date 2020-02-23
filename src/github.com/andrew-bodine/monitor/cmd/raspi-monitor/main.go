@@ -4,9 +4,9 @@ import (
 	"flag"
 	"sync"
 
-	"github.com/andrew-bodine/monitoring/pkg/monitors"
-	temperatureMonitor "github.com/andrew-bodine/monitoring/pkg/temperature-monitor"
-	vibrationMonitor "github.com/andrew-bodine/monitoring/pkg/vibration-monitor"
+	"github.com/andrew-bodine/monitor/pkg/monitors"
+	temperatureMonitor "github.com/andrew-bodine/monitor/pkg/temperature-monitor"
+	vibrationMonitor "github.com/andrew-bodine/monitor/pkg/vibration-monitor"
 	rpio "github.com/stianeikeland/go-rpio"
 	"go.uber.org/zap"
 )

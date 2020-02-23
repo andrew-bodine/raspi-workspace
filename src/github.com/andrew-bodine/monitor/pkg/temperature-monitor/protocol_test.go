@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	monitor "github.com/andrew-bodine/monitoring/pkg/temperature-monitor"
+	monitor "github.com/andrew-bodine/monitor/pkg/temperature-monitor"
 )
 
 var _ = Describe("Temperature Monitor Protocol Unit Tests", func() {

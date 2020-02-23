@@ -7,8 +7,8 @@ import (
 	. "github.com/onsi/gomega"
 	"go.uber.org/zap"
 
-	"github.com/andrew-bodine/monitoring/pkg/monitors"
-	monitorFakes "github.com/andrew-bodine/monitoring/pkg/monitors/fakes"
+	"github.com/andrew-bodine/monitor/pkg/monitors"
+	monitorFakes "github.com/andrew-bodine/monitor/pkg/monitors/fakes"
 )
 
 var _ = Describe("BuildAndRunMonitor", func() {

@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	temperature_monitor "github.com/andrew-bodine/monitoring/pkg/temperature-monitor"
+	temperature_monitor "github.com/andrew-bodine/monitor/pkg/temperature-monitor"
 	rpio "github.com/stianeikeland/go-rpio"
 )
 
