@@ -4,7 +4,7 @@ package fakes
 import (
 	"sync"
 
-	"github.com/andrew-bodine/vibration-monitor/pkg/monitor"
+	"github.com/andrew-bodine/monitoring/pkg/monitors"
 	gorpio "github.com/stianeikeland/go-rpio"
 )
 
@@ -65,15 +65,18 @@ type FakeGoRaspberryPiIOPin struct {
 	pullArgsForCall []struct {
 		pull gorpio.Pull
 	}
-	PullUpStub         func()
-	pullUpMutex        sync.RWMutex
-	pullUpArgsForCall  []struct{}
-	PullOffStub        func()
-	pullOffMutex       sync.RWMutex
-	pullOffArgsForCall []struct{}
-	DetectStub         func(edge gorpio.Edge)
-	detectMutex        sync.RWMutex
-	detectArgsForCall  []struct {
+	PullUpStub          func()
+	pullUpMutex         sync.RWMutex
+	pullUpArgsForCall   []struct{}
+	PullDownStub        func()
+	pullDownMutex       sync.RWMutex
+	pullDownArgsForCall []struct{}
+	PullOffStub         func()
+	pullOffMutex        sync.RWMutex
+	pullOffArgsForCall  []struct{}
+	DetectStub          func(edge gorpio.Edge)
+	detectMutex         sync.RWMutex
+	detectArgsForCall   []struct {
 		edge gorpio.Edge
 	}
 	EdgeDetectedStub        func() bool
@@ -378,6 +381,22 @@ func (fake *FakeGoRaspberryPiIOPin) PullUpCallCount() int {
 	return len(fake.pullUpArgsForCall)
 }
 
+func (fake *FakeGoRaspberryPiIOPin) PullDown() {
+	fake.pullDownMutex.Lock()
+	fake.pullDownArgsForCall = append(fake.pullDownArgsForCall, struct{}{})
+	fake.recordInvocation("PullDown", []interface{}{})
+	fake.pullDownMutex.Unlock()
+	if fake.PullDownStub != nil {
+		fake.PullDownStub()
+	}
+}
+
+func (fake *FakeGoRaspberryPiIOPin) PullDownCallCount() int {
+	fake.pullDownMutex.RLock()
+	defer fake.pullDownMutex.RUnlock()
+	return len(fake.pullDownArgsForCall)
+}
+
 func (fake *FakeGoRaspberryPiIOPin) PullOff() {
 	fake.pullOffMutex.Lock()
 	fake.pullOffArgsForCall = append(fake.pullOffArgsForCall, struct{}{})
@@ -489,6 +508,8 @@ func (fake *FakeGoRaspberryPiIOPin) Invocations() map[string][][]interface{} {
 	defer fake.pullMutex.RUnlock()
 	fake.pullUpMutex.RLock()
 	defer fake.pullUpMutex.RUnlock()
+	fake.pullDownMutex.RLock()
+	defer fake.pullDownMutex.RUnlock()
 	fake.pullOffMutex.RLock()
 	defer fake.pullOffMutex.RUnlock()
 	fake.detectMutex.RLock()
@@ -514,4 +535,4 @@ func (fake *FakeGoRaspberryPiIOPin) recordInvocation(key string, args []interfac
 	fake.invocations[key] = append(fake.invocations[key], args)
 }
 
-var _ monitor.GoRaspberryPiIOPin = new(FakeGoRaspberryPiIOPin)
+var _ monitors.GoRaspberryPiIOPin = new(FakeGoRaspberryPiIOPin)

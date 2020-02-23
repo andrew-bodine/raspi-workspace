@@ -4,27 +4,27 @@ package fakes
 import (
 	"sync"
 
-	"github.com/andrew-bodine/vibration-monitor/pkg/monitor"
+	"github.com/andrew-bodine/monitoring/pkg/monitors"
 	gorpio "github.com/stianeikeland/go-rpio"
 )
 
 type FakeGoRaspberryPiIO struct {
-	PinModeStub        func(pin monitor.GoRaspberryPiIOPin, mode gorpio.Mode)
+	PinModeStub        func(pin monitors.GoRaspberryPiIOPin, mode gorpio.Mode)
 	pinModeMutex       sync.RWMutex
 	pinModeArgsForCall []struct {
-		pin  monitor.GoRaspberryPiIOPin
+		pin  monitors.GoRaspberryPiIOPin
 		mode gorpio.Mode
 	}
-	WritePinStub        func(pin monitor.GoRaspberryPiIOPin, state gorpio.State)
+	WritePinStub        func(pin monitors.GoRaspberryPiIOPin, state gorpio.State)
 	writePinMutex       sync.RWMutex
 	writePinArgsForCall []struct {
-		pin   monitor.GoRaspberryPiIOPin
+		pin   monitors.GoRaspberryPiIOPin
 		state gorpio.State
 	}
-	ReadPinStub        func(pin monitor.GoRaspberryPiIOPin) gorpio.State
+	ReadPinStub        func(pin monitors.GoRaspberryPiIOPin) gorpio.State
 	readPinMutex       sync.RWMutex
 	readPinArgsForCall []struct {
-		pin monitor.GoRaspberryPiIOPin
+		pin monitors.GoRaspberryPiIOPin
 	}
 	readPinReturns struct {
 		result1 gorpio.State
@@ -32,21 +32,21 @@ type FakeGoRaspberryPiIO struct {
 	readPinReturnsOnCall map[int]struct {
 		result1 gorpio.State
 	}
-	TogglePinStub        func(pin monitor.GoRaspberryPiIOPin)
+	TogglePinStub        func(pin monitors.GoRaspberryPiIOPin)
 	togglePinMutex       sync.RWMutex
 	togglePinArgsForCall []struct {
-		pin monitor.GoRaspberryPiIOPin
+		pin monitors.GoRaspberryPiIOPin
 	}
-	DetectEdgeStub        func(pin monitor.GoRaspberryPiIOPin, edge gorpio.Edge)
+	DetectEdgeStub        func(pin monitors.GoRaspberryPiIOPin, edge gorpio.Edge)
 	detectEdgeMutex       sync.RWMutex
 	detectEdgeArgsForCall []struct {
-		pin  monitor.GoRaspberryPiIOPin
+		pin  monitors.GoRaspberryPiIOPin
 		edge gorpio.Edge
 	}
-	EdgeDetectedStub        func(pin monitor.GoRaspberryPiIOPin) bool
+	EdgeDetectedStub        func(pin monitors.GoRaspberryPiIOPin) bool
 	edgeDetectedMutex       sync.RWMutex
 	edgeDetectedArgsForCall []struct {
-		pin monitor.GoRaspberryPiIOPin
+		pin monitors.GoRaspberryPiIOPin
 	}
 	edgeDetectedReturns struct {
 		result1 bool
@@ -54,22 +54,22 @@ type FakeGoRaspberryPiIO struct {
 	edgeDetectedReturnsOnCall map[int]struct {
 		result1 bool
 	}
-	PullModeStub        func(pin monitor.GoRaspberryPiIOPin, pull gorpio.Pull)
+	PullModeStub        func(pin monitors.GoRaspberryPiIOPin, pull gorpio.Pull)
 	pullModeMutex       sync.RWMutex
 	pullModeArgsForCall []struct {
-		pin  monitor.GoRaspberryPiIOPin
+		pin  monitors.GoRaspberryPiIOPin
 		pull gorpio.Pull
 	}
-	SetFreqStub        func(pin monitor.GoRaspberryPiIOPin, freq int)
+	SetFreqStub        func(pin monitors.GoRaspberryPiIOPin, freq int)
 	setFreqMutex       sync.RWMutex
 	setFreqArgsForCall []struct {
-		pin  monitor.GoRaspberryPiIOPin
+		pin  monitors.GoRaspberryPiIOPin
 		freq int
 	}
-	SetDutyCycleStub        func(pin monitor.GoRaspberryPiIOPin, dutyLen, cycleLen uint32)
+	SetDutyCycleStub        func(pin monitors.GoRaspberryPiIOPin, dutyLen, cycleLen uint32)
 	setDutyCycleMutex       sync.RWMutex
 	setDutyCycleArgsForCall []struct {
-		pin      monitor.GoRaspberryPiIOPin
+		pin      monitors.GoRaspberryPiIOPin
 		dutyLen  uint32
 		cycleLen uint32
 	}
@@ -111,10 +111,10 @@ type FakeGoRaspberryPiIO struct {
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeGoRaspberryPiIO) PinMode(pin monitor.GoRaspberryPiIOPin, mode gorpio.Mode) {
+func (fake *FakeGoRaspberryPiIO) PinMode(pin monitors.GoRaspberryPiIOPin, mode gorpio.Mode) {
 	fake.pinModeMutex.Lock()
 	fake.pinModeArgsForCall = append(fake.pinModeArgsForCall, struct {
-		pin  monitor.GoRaspberryPiIOPin
+		pin  monitors.GoRaspberryPiIOPin
 		mode gorpio.Mode
 	}{pin, mode})
 	fake.recordInvocation("PinMode", []interface{}{pin, mode})
@@ -130,16 +130,16 @@ func (fake *FakeGoRaspberryPiIO) PinModeCallCount() int {
 	return len(fake.pinModeArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIO) PinModeArgsForCall(i int) (monitor.GoRaspberryPiIOPin, gorpio.Mode) {
+func (fake *FakeGoRaspberryPiIO) PinModeArgsForCall(i int) (monitors.GoRaspberryPiIOPin, gorpio.Mode) {
 	fake.pinModeMutex.RLock()
 	defer fake.pinModeMutex.RUnlock()
 	return fake.pinModeArgsForCall[i].pin, fake.pinModeArgsForCall[i].mode
 }
 
-func (fake *FakeGoRaspberryPiIO) WritePin(pin monitor.GoRaspberryPiIOPin, state gorpio.State) {
+func (fake *FakeGoRaspberryPiIO) WritePin(pin monitors.GoRaspberryPiIOPin, state gorpio.State) {
 	fake.writePinMutex.Lock()
 	fake.writePinArgsForCall = append(fake.writePinArgsForCall, struct {
-		pin   monitor.GoRaspberryPiIOPin
+		pin   monitors.GoRaspberryPiIOPin
 		state gorpio.State
 	}{pin, state})
 	fake.recordInvocation("WritePin", []interface{}{pin, state})
@@ -155,17 +155,17 @@ func (fake *FakeGoRaspberryPiIO) WritePinCallCount() int {
 	return len(fake.writePinArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIO) WritePinArgsForCall(i int) (monitor.GoRaspberryPiIOPin, gorpio.State) {
+func (fake *FakeGoRaspberryPiIO) WritePinArgsForCall(i int) (monitors.GoRaspberryPiIOPin, gorpio.State) {
 	fake.writePinMutex.RLock()
 	defer fake.writePinMutex.RUnlock()
 	return fake.writePinArgsForCall[i].pin, fake.writePinArgsForCall[i].state
 }
 
-func (fake *FakeGoRaspberryPiIO) ReadPin(pin monitor.GoRaspberryPiIOPin) gorpio.State {
+func (fake *FakeGoRaspberryPiIO) ReadPin(pin monitors.GoRaspberryPiIOPin) gorpio.State {
 	fake.readPinMutex.Lock()
 	ret, specificReturn := fake.readPinReturnsOnCall[len(fake.readPinArgsForCall)]
 	fake.readPinArgsForCall = append(fake.readPinArgsForCall, struct {
-		pin monitor.GoRaspberryPiIOPin
+		pin monitors.GoRaspberryPiIOPin
 	}{pin})
 	fake.recordInvocation("ReadPin", []interface{}{pin})
 	fake.readPinMutex.Unlock()
@@ -184,7 +184,7 @@ func (fake *FakeGoRaspberryPiIO) ReadPinCallCount() int {
 	return len(fake.readPinArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIO) ReadPinArgsForCall(i int) monitor.GoRaspberryPiIOPin {
+func (fake *FakeGoRaspberryPiIO) ReadPinArgsForCall(i int) monitors.GoRaspberryPiIOPin {
 	fake.readPinMutex.RLock()
 	defer fake.readPinMutex.RUnlock()
 	return fake.readPinArgsForCall[i].pin
@@ -209,10 +209,10 @@ func (fake *FakeGoRaspberryPiIO) ReadPinReturnsOnCall(i int, result1 gorpio.Stat
 	}{result1}
 }
 
-func (fake *FakeGoRaspberryPiIO) TogglePin(pin monitor.GoRaspberryPiIOPin) {
+func (fake *FakeGoRaspberryPiIO) TogglePin(pin monitors.GoRaspberryPiIOPin) {
 	fake.togglePinMutex.Lock()
 	fake.togglePinArgsForCall = append(fake.togglePinArgsForCall, struct {
-		pin monitor.GoRaspberryPiIOPin
+		pin monitors.GoRaspberryPiIOPin
 	}{pin})
 	fake.recordInvocation("TogglePin", []interface{}{pin})
 	fake.togglePinMutex.Unlock()
@@ -227,16 +227,16 @@ func (fake *FakeGoRaspberryPiIO) TogglePinCallCount() int {
 	return len(fake.togglePinArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIO) TogglePinArgsForCall(i int) monitor.GoRaspberryPiIOPin {
+func (fake *FakeGoRaspberryPiIO) TogglePinArgsForCall(i int) monitors.GoRaspberryPiIOPin {
 	fake.togglePinMutex.RLock()
 	defer fake.togglePinMutex.RUnlock()
 	return fake.togglePinArgsForCall[i].pin
 }
 
-func (fake *FakeGoRaspberryPiIO) DetectEdge(pin monitor.GoRaspberryPiIOPin, edge gorpio.Edge) {
+func (fake *FakeGoRaspberryPiIO) DetectEdge(pin monitors.GoRaspberryPiIOPin, edge gorpio.Edge) {
 	fake.detectEdgeMutex.Lock()
 	fake.detectEdgeArgsForCall = append(fake.detectEdgeArgsForCall, struct {
-		pin  monitor.GoRaspberryPiIOPin
+		pin  monitors.GoRaspberryPiIOPin
 		edge gorpio.Edge
 	}{pin, edge})
 	fake.recordInvocation("DetectEdge", []interface{}{pin, edge})
@@ -252,17 +252,17 @@ func (fake *FakeGoRaspberryPiIO) DetectEdgeCallCount() int {
 	return len(fake.detectEdgeArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIO) DetectEdgeArgsForCall(i int) (monitor.GoRaspberryPiIOPin, gorpio.Edge) {
+func (fake *FakeGoRaspberryPiIO) DetectEdgeArgsForCall(i int) (monitors.GoRaspberryPiIOPin, gorpio.Edge) {
 	fake.detectEdgeMutex.RLock()
 	defer fake.detectEdgeMutex.RUnlock()
 	return fake.detectEdgeArgsForCall[i].pin, fake.detectEdgeArgsForCall[i].edge
 }
 
-func (fake *FakeGoRaspberryPiIO) EdgeDetected(pin monitor.GoRaspberryPiIOPin) bool {
+func (fake *FakeGoRaspberryPiIO) EdgeDetected(pin monitors.GoRaspberryPiIOPin) bool {
 	fake.edgeDetectedMutex.Lock()
 	ret, specificReturn := fake.edgeDetectedReturnsOnCall[len(fake.edgeDetectedArgsForCall)]
 	fake.edgeDetectedArgsForCall = append(fake.edgeDetectedArgsForCall, struct {
-		pin monitor.GoRaspberryPiIOPin
+		pin monitors.GoRaspberryPiIOPin
 	}{pin})
 	fake.recordInvocation("EdgeDetected", []interface{}{pin})
 	fake.edgeDetectedMutex.Unlock()
@@ -281,7 +281,7 @@ func (fake *FakeGoRaspberryPiIO) EdgeDetectedCallCount() int {
 	return len(fake.edgeDetectedArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIO) EdgeDetectedArgsForCall(i int) monitor.GoRaspberryPiIOPin {
+func (fake *FakeGoRaspberryPiIO) EdgeDetectedArgsForCall(i int) monitors.GoRaspberryPiIOPin {
 	fake.edgeDetectedMutex.RLock()
 	defer fake.edgeDetectedMutex.RUnlock()
 	return fake.edgeDetectedArgsForCall[i].pin
@@ -306,10 +306,10 @@ func (fake *FakeGoRaspberryPiIO) EdgeDetectedReturnsOnCall(i int, result1 bool) 
 	}{result1}
 }
 
-func (fake *FakeGoRaspberryPiIO) PullMode(pin monitor.GoRaspberryPiIOPin, pull gorpio.Pull) {
+func (fake *FakeGoRaspberryPiIO) PullMode(pin monitors.GoRaspberryPiIOPin, pull gorpio.Pull) {
 	fake.pullModeMutex.Lock()
 	fake.pullModeArgsForCall = append(fake.pullModeArgsForCall, struct {
-		pin  monitor.GoRaspberryPiIOPin
+		pin  monitors.GoRaspberryPiIOPin
 		pull gorpio.Pull
 	}{pin, pull})
 	fake.recordInvocation("PullMode", []interface{}{pin, pull})
@@ -325,16 +325,16 @@ func (fake *FakeGoRaspberryPiIO) PullModeCallCount() int {
 	return len(fake.pullModeArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIO) PullModeArgsForCall(i int) (monitor.GoRaspberryPiIOPin, gorpio.Pull) {
+func (fake *FakeGoRaspberryPiIO) PullModeArgsForCall(i int) (monitors.GoRaspberryPiIOPin, gorpio.Pull) {
 	fake.pullModeMutex.RLock()
 	defer fake.pullModeMutex.RUnlock()
 	return fake.pullModeArgsForCall[i].pin, fake.pullModeArgsForCall[i].pull
 }
 
-func (fake *FakeGoRaspberryPiIO) SetFreq(pin monitor.GoRaspberryPiIOPin, freq int) {
+func (fake *FakeGoRaspberryPiIO) SetFreq(pin monitors.GoRaspberryPiIOPin, freq int) {
 	fake.setFreqMutex.Lock()
 	fake.setFreqArgsForCall = append(fake.setFreqArgsForCall, struct {
-		pin  monitor.GoRaspberryPiIOPin
+		pin  monitors.GoRaspberryPiIOPin
 		freq int
 	}{pin, freq})
 	fake.recordInvocation("SetFreq", []interface{}{pin, freq})
@@ -350,16 +350,16 @@ func (fake *FakeGoRaspberryPiIO) SetFreqCallCount() int {
 	return len(fake.setFreqArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIO) SetFreqArgsForCall(i int) (monitor.GoRaspberryPiIOPin, int) {
+func (fake *FakeGoRaspberryPiIO) SetFreqArgsForCall(i int) (monitors.GoRaspberryPiIOPin, int) {
 	fake.setFreqMutex.RLock()
 	defer fake.setFreqMutex.RUnlock()
 	return fake.setFreqArgsForCall[i].pin, fake.setFreqArgsForCall[i].freq
 }
 
-func (fake *FakeGoRaspberryPiIO) SetDutyCycle(pin monitor.GoRaspberryPiIOPin, dutyLen uint32, cycleLen uint32) {
+func (fake *FakeGoRaspberryPiIO) SetDutyCycle(pin monitors.GoRaspberryPiIOPin, dutyLen uint32, cycleLen uint32) {
 	fake.setDutyCycleMutex.Lock()
 	fake.setDutyCycleArgsForCall = append(fake.setDutyCycleArgsForCall, struct {
-		pin      monitor.GoRaspberryPiIOPin
+		pin      monitors.GoRaspberryPiIOPin
 		dutyLen  uint32
 		cycleLen uint32
 	}{pin, dutyLen, cycleLen})
@@ -376,7 +376,7 @@ func (fake *FakeGoRaspberryPiIO) SetDutyCycleCallCount() int {
 	return len(fake.setDutyCycleArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIO) SetDutyCycleArgsForCall(i int) (monitor.GoRaspberryPiIOPin, uint32, uint32) {
+func (fake *FakeGoRaspberryPiIO) SetDutyCycleArgsForCall(i int) (monitors.GoRaspberryPiIOPin, uint32, uint32) {
 	fake.setDutyCycleMutex.RLock()
 	defer fake.setDutyCycleMutex.RUnlock()
 	return fake.setDutyCycleArgsForCall[i].pin, fake.setDutyCycleArgsForCall[i].dutyLen, fake.setDutyCycleArgsForCall[i].cycleLen
@@ -594,4 +594,4 @@ func (fake *FakeGoRaspberryPiIO) recordInvocation(key string, args []interface{}
 	fake.invocations[key] = append(fake.invocations[key], args)
 }
 
-var _ monitor.GoRaspberryPiIO = new(FakeGoRaspberryPiIO)
+var _ monitors.GoRaspberryPiIO = new(FakeGoRaspberryPiIO)
