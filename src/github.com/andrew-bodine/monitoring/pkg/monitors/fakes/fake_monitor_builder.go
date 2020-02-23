@@ -8,10 +8,10 @@ import (
 )
 
 type FakeMonitorBuilder struct {
-	Stub        func(config interface{}) (monitor monitors.Monitor, err error)
+	Stub        func(interface{}) (monitors.Monitor, error)
 	mutex       sync.RWMutex
 	argsForCall []struct {
-		config interface{}
+		arg1 interface{}
 	}
 	returns struct {
 		result1 monitors.Monitor
@@ -25,16 +25,16 @@ type FakeMonitorBuilder struct {
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeMonitorBuilder) Spy(config interface{}) (monitor monitors.Monitor, err error) {
+func (fake *FakeMonitorBuilder) Spy(arg1 interface{}) (monitors.Monitor, error) {
 	fake.mutex.Lock()
 	ret, specificReturn := fake.returnsOnCall[len(fake.argsForCall)]
 	fake.argsForCall = append(fake.argsForCall, struct {
-		config interface{}
-	}{config})
-	fake.recordInvocation("MonitorBuilder", []interface{}{config})
+		arg1 interface{}
+	}{arg1})
+	fake.recordInvocation("MonitorBuilder", []interface{}{arg1})
 	fake.mutex.Unlock()
 	if fake.Stub != nil {
-		return fake.Stub(config)
+		return fake.Stub(arg1)
 	}
 	if specificReturn {
 		return ret.result1, ret.result2
@@ -48,13 +48,21 @@ func (fake *FakeMonitorBuilder) CallCount() int {
 	return len(fake.argsForCall)
 }
 
+func (fake *FakeMonitorBuilder) Calls(stub func(interface{}) (monitors.Monitor, error)) {
+	fake.mutex.Lock()
+	defer fake.mutex.Unlock()
+	fake.Stub = stub
+}
+
 func (fake *FakeMonitorBuilder) ArgsForCall(i int) interface{} {
 	fake.mutex.RLock()
 	defer fake.mutex.RUnlock()
-	return fake.argsForCall[i].config
+	return fake.argsForCall[i].arg1
 }
 
 func (fake *FakeMonitorBuilder) Returns(result1 monitors.Monitor, result2 error) {
+	fake.mutex.Lock()
+	defer fake.mutex.Unlock()
 	fake.Stub = nil
 	fake.returns = struct {
 		result1 monitors.Monitor
@@ -63,6 +71,8 @@ func (fake *FakeMonitorBuilder) Returns(result1 monitors.Monitor, result2 error)
 }
 
 func (fake *FakeMonitorBuilder) ReturnsOnCall(i int, result1 monitors.Monitor, result2 error) {
+	fake.mutex.Lock()
+	defer fake.mutex.Unlock()
 	fake.Stub = nil
 	if fake.returnsOnCall == nil {
 		fake.returnsOnCall = make(map[int]struct {

@@ -4,6 +4,7 @@ all: go-deps fakes test build
 
 # Install all necessary local golang dependencies.
 go-deps:
+	go get github.com/maxbrunsfeld/counterfeiter
 	go get github.com/onsi/ginkgo
 	go get github.com/onsi/gomega
 	go get github.com/stianeikeland/go-rpio

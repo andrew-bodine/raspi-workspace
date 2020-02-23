@@ -9,10 +9,10 @@ import (
 )
 
 type FakeConfigWithFlagsAndLoggerConstructor struct {
-	Stub        func(logger *zap.Logger) (config interface{}, err error)
+	Stub        func(*zap.Logger) (interface{}, error)
 	mutex       sync.RWMutex
 	argsForCall []struct {
-		logger *zap.Logger
+		arg1 *zap.Logger
 	}
 	returns struct {
 		result1 interface{}
@@ -26,16 +26,16 @@ type FakeConfigWithFlagsAndLoggerConstructor struct {
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeConfigWithFlagsAndLoggerConstructor) Spy(logger *zap.Logger) (config interface{}, err error) {
+func (fake *FakeConfigWithFlagsAndLoggerConstructor) Spy(arg1 *zap.Logger) (interface{}, error) {
 	fake.mutex.Lock()
 	ret, specificReturn := fake.returnsOnCall[len(fake.argsForCall)]
 	fake.argsForCall = append(fake.argsForCall, struct {
-		logger *zap.Logger
-	}{logger})
-	fake.recordInvocation("ConfigWithFlagsAndLoggerConstructor", []interface{}{logger})
+		arg1 *zap.Logger
+	}{arg1})
+	fake.recordInvocation("ConfigWithFlagsAndLoggerConstructor", []interface{}{arg1})
 	fake.mutex.Unlock()
 	if fake.Stub != nil {
-		return fake.Stub(logger)
+		return fake.Stub(arg1)
 	}
 	if specificReturn {
 		return ret.result1, ret.result2
@@ -49,13 +49,21 @@ func (fake *FakeConfigWithFlagsAndLoggerConstructor) CallCount() int {
 	return len(fake.argsForCall)
 }
 
+func (fake *FakeConfigWithFlagsAndLoggerConstructor) Calls(stub func(*zap.Logger) (interface{}, error)) {
+	fake.mutex.Lock()
+	defer fake.mutex.Unlock()
+	fake.Stub = stub
+}
+
 func (fake *FakeConfigWithFlagsAndLoggerConstructor) ArgsForCall(i int) *zap.Logger {
 	fake.mutex.RLock()
 	defer fake.mutex.RUnlock()
-	return fake.argsForCall[i].logger
+	return fake.argsForCall[i].arg1
 }
 
 func (fake *FakeConfigWithFlagsAndLoggerConstructor) Returns(result1 interface{}, result2 error) {
+	fake.mutex.Lock()
+	defer fake.mutex.Unlock()
 	fake.Stub = nil
 	fake.returns = struct {
 		result1 interface{}
@@ -64,6 +72,8 @@ func (fake *FakeConfigWithFlagsAndLoggerConstructor) Returns(result1 interface{}
 }
 
 func (fake *FakeConfigWithFlagsAndLoggerConstructor) ReturnsOnCall(i int, result1 interface{}, result2 error) {
+	fake.mutex.Lock()
+	defer fake.mutex.Unlock()
 	fake.Stub = nil
 	if fake.returnsOnCall == nil {
 		fake.returnsOnCall = make(map[int]struct {

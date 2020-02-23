@@ -6,60 +6,14 @@ import (
 	"time"
 
 	temperature_monitor "github.com/andrew-bodine/monitoring/pkg/temperature-monitor"
-	"github.com/stianeikeland/go-rpio"
+	rpio "github.com/stianeikeland/go-rpio"
 )
 
 type FakeDHT11Sensor struct {
-	ReadStub        func() *temperature_monitor.DHT11Result
-	readMutex       sync.RWMutex
-	readArgsForCall []struct{}
-	readReturns     struct {
-		result1 *temperature_monitor.DHT11Result
-	}
-	readReturnsOnCall map[int]struct {
-		result1 *temperature_monitor.DHT11Result
-	}
-	SendAndSleepStub        func(state rpio.State, sleepTime time.Duration)
-	sendAndSleepMutex       sync.RWMutex
-	sendAndSleepArgsForCall []struct {
-		state     rpio.State
-		sleepTime time.Duration
-	}
-	CollectInputStub        func() []rpio.State
-	collectInputMutex       sync.RWMutex
-	collectInputArgsForCall []struct{}
-	collectInputReturns     struct {
-		result1 []rpio.State
-	}
-	collectInputReturnsOnCall map[int]struct {
-		result1 []rpio.State
-	}
-	ParseDataPullUpLengthsStub        func(states []rpio.State) []int
-	parseDataPullUpLengthsMutex       sync.RWMutex
-	parseDataPullUpLengthsArgsForCall []struct {
-		states []rpio.State
-	}
-	parseDataPullUpLengthsReturns struct {
-		result1 []int
-	}
-	parseDataPullUpLengthsReturnsOnCall map[int]struct {
-		result1 []int
-	}
-	CalculateBitsStub        func(pullUpLengths []int) []bool
-	calculateBitsMutex       sync.RWMutex
-	calculateBitsArgsForCall []struct {
-		pullUpLengths []int
-	}
-	calculateBitsReturns struct {
-		result1 []bool
-	}
-	calculateBitsReturnsOnCall map[int]struct {
-		result1 []bool
-	}
-	BitsToBytesStub        func(bits []bool) []byte
+	BitsToBytesStub        func([]bool) []byte
 	bitsToBytesMutex       sync.RWMutex
 	bitsToBytesArgsForCall []struct {
-		bits []bool
+		arg1 []bool
 	}
 	bitsToBytesReturns struct {
 		result1 []byte
@@ -67,10 +21,21 @@ type FakeDHT11Sensor struct {
 	bitsToBytesReturnsOnCall map[int]struct {
 		result1 []byte
 	}
-	CalculateChecksumStub        func(payload []byte) byte
+	CalculateBitsStub        func([]int) []bool
+	calculateBitsMutex       sync.RWMutex
+	calculateBitsArgsForCall []struct {
+		arg1 []int
+	}
+	calculateBitsReturns struct {
+		result1 []bool
+	}
+	calculateBitsReturnsOnCall map[int]struct {
+		result1 []bool
+	}
+	CalculateChecksumStub        func([]byte) byte
 	calculateChecksumMutex       sync.RWMutex
 	calculateChecksumArgsForCall []struct {
-		payload []byte
+		arg1 []byte
 	}
 	calculateChecksumReturns struct {
 		result1 byte
@@ -78,241 +43,68 @@ type FakeDHT11Sensor struct {
 	calculateChecksumReturnsOnCall map[int]struct {
 		result1 byte
 	}
+	CollectInputStub        func() []rpio.State
+	collectInputMutex       sync.RWMutex
+	collectInputArgsForCall []struct {
+	}
+	collectInputReturns struct {
+		result1 []rpio.State
+	}
+	collectInputReturnsOnCall map[int]struct {
+		result1 []rpio.State
+	}
+	ParseDataPullUpLengthsStub        func([]rpio.State) []int
+	parseDataPullUpLengthsMutex       sync.RWMutex
+	parseDataPullUpLengthsArgsForCall []struct {
+		arg1 []rpio.State
+	}
+	parseDataPullUpLengthsReturns struct {
+		result1 []int
+	}
+	parseDataPullUpLengthsReturnsOnCall map[int]struct {
+		result1 []int
+	}
+	ReadStub        func() *temperature_monitor.DHT11Result
+	readMutex       sync.RWMutex
+	readArgsForCall []struct {
+	}
+	readReturns struct {
+		result1 *temperature_monitor.DHT11Result
+	}
+	readReturnsOnCall map[int]struct {
+		result1 *temperature_monitor.DHT11Result
+	}
+	SendAndSleepStub        func(rpio.State, time.Duration)
+	sendAndSleepMutex       sync.RWMutex
+	sendAndSleepArgsForCall []struct {
+		arg1 rpio.State
+		arg2 time.Duration
+	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeDHT11Sensor) Read() *temperature_monitor.DHT11Result {
-	fake.readMutex.Lock()
-	ret, specificReturn := fake.readReturnsOnCall[len(fake.readArgsForCall)]
-	fake.readArgsForCall = append(fake.readArgsForCall, struct{}{})
-	fake.recordInvocation("Read", []interface{}{})
-	fake.readMutex.Unlock()
-	if fake.ReadStub != nil {
-		return fake.ReadStub()
-	}
-	if specificReturn {
-		return ret.result1
-	}
-	return fake.readReturns.result1
-}
-
-func (fake *FakeDHT11Sensor) ReadCallCount() int {
-	fake.readMutex.RLock()
-	defer fake.readMutex.RUnlock()
-	return len(fake.readArgsForCall)
-}
-
-func (fake *FakeDHT11Sensor) ReadReturns(result1 *temperature_monitor.DHT11Result) {
-	fake.ReadStub = nil
-	fake.readReturns = struct {
-		result1 *temperature_monitor.DHT11Result
-	}{result1}
-}
-
-func (fake *FakeDHT11Sensor) ReadReturnsOnCall(i int, result1 *temperature_monitor.DHT11Result) {
-	fake.ReadStub = nil
-	if fake.readReturnsOnCall == nil {
-		fake.readReturnsOnCall = make(map[int]struct {
-			result1 *temperature_monitor.DHT11Result
-		})
-	}
-	fake.readReturnsOnCall[i] = struct {
-		result1 *temperature_monitor.DHT11Result
-	}{result1}
-}
-
-func (fake *FakeDHT11Sensor) SendAndSleep(state rpio.State, sleepTime time.Duration) {
-	fake.sendAndSleepMutex.Lock()
-	fake.sendAndSleepArgsForCall = append(fake.sendAndSleepArgsForCall, struct {
-		state     rpio.State
-		sleepTime time.Duration
-	}{state, sleepTime})
-	fake.recordInvocation("SendAndSleep", []interface{}{state, sleepTime})
-	fake.sendAndSleepMutex.Unlock()
-	if fake.SendAndSleepStub != nil {
-		fake.SendAndSleepStub(state, sleepTime)
-	}
-}
-
-func (fake *FakeDHT11Sensor) SendAndSleepCallCount() int {
-	fake.sendAndSleepMutex.RLock()
-	defer fake.sendAndSleepMutex.RUnlock()
-	return len(fake.sendAndSleepArgsForCall)
-}
-
-func (fake *FakeDHT11Sensor) SendAndSleepArgsForCall(i int) (rpio.State, time.Duration) {
-	fake.sendAndSleepMutex.RLock()
-	defer fake.sendAndSleepMutex.RUnlock()
-	return fake.sendAndSleepArgsForCall[i].state, fake.sendAndSleepArgsForCall[i].sleepTime
-}
-
-func (fake *FakeDHT11Sensor) CollectInput() []rpio.State {
-	fake.collectInputMutex.Lock()
-	ret, specificReturn := fake.collectInputReturnsOnCall[len(fake.collectInputArgsForCall)]
-	fake.collectInputArgsForCall = append(fake.collectInputArgsForCall, struct{}{})
-	fake.recordInvocation("CollectInput", []interface{}{})
-	fake.collectInputMutex.Unlock()
-	if fake.CollectInputStub != nil {
-		return fake.CollectInputStub()
-	}
-	if specificReturn {
-		return ret.result1
-	}
-	return fake.collectInputReturns.result1
-}
-
-func (fake *FakeDHT11Sensor) CollectInputCallCount() int {
-	fake.collectInputMutex.RLock()
-	defer fake.collectInputMutex.RUnlock()
-	return len(fake.collectInputArgsForCall)
-}
-
-func (fake *FakeDHT11Sensor) CollectInputReturns(result1 []rpio.State) {
-	fake.CollectInputStub = nil
-	fake.collectInputReturns = struct {
-		result1 []rpio.State
-	}{result1}
-}
-
-func (fake *FakeDHT11Sensor) CollectInputReturnsOnCall(i int, result1 []rpio.State) {
-	fake.CollectInputStub = nil
-	if fake.collectInputReturnsOnCall == nil {
-		fake.collectInputReturnsOnCall = make(map[int]struct {
-			result1 []rpio.State
-		})
-	}
-	fake.collectInputReturnsOnCall[i] = struct {
-		result1 []rpio.State
-	}{result1}
-}
-
-func (fake *FakeDHT11Sensor) ParseDataPullUpLengths(states []rpio.State) []int {
-	var statesCopy []rpio.State
-	if states != nil {
-		statesCopy = make([]rpio.State, len(states))
-		copy(statesCopy, states)
-	}
-	fake.parseDataPullUpLengthsMutex.Lock()
-	ret, specificReturn := fake.parseDataPullUpLengthsReturnsOnCall[len(fake.parseDataPullUpLengthsArgsForCall)]
-	fake.parseDataPullUpLengthsArgsForCall = append(fake.parseDataPullUpLengthsArgsForCall, struct {
-		states []rpio.State
-	}{statesCopy})
-	fake.recordInvocation("ParseDataPullUpLengths", []interface{}{statesCopy})
-	fake.parseDataPullUpLengthsMutex.Unlock()
-	if fake.ParseDataPullUpLengthsStub != nil {
-		return fake.ParseDataPullUpLengthsStub(states)
-	}
-	if specificReturn {
-		return ret.result1
-	}
-	return fake.parseDataPullUpLengthsReturns.result1
-}
-
-func (fake *FakeDHT11Sensor) ParseDataPullUpLengthsCallCount() int {
-	fake.parseDataPullUpLengthsMutex.RLock()
-	defer fake.parseDataPullUpLengthsMutex.RUnlock()
-	return len(fake.parseDataPullUpLengthsArgsForCall)
-}
-
-func (fake *FakeDHT11Sensor) ParseDataPullUpLengthsArgsForCall(i int) []rpio.State {
-	fake.parseDataPullUpLengthsMutex.RLock()
-	defer fake.parseDataPullUpLengthsMutex.RUnlock()
-	return fake.parseDataPullUpLengthsArgsForCall[i].states
-}
-
-func (fake *FakeDHT11Sensor) ParseDataPullUpLengthsReturns(result1 []int) {
-	fake.ParseDataPullUpLengthsStub = nil
-	fake.parseDataPullUpLengthsReturns = struct {
-		result1 []int
-	}{result1}
-}
-
-func (fake *FakeDHT11Sensor) ParseDataPullUpLengthsReturnsOnCall(i int, result1 []int) {
-	fake.ParseDataPullUpLengthsStub = nil
-	if fake.parseDataPullUpLengthsReturnsOnCall == nil {
-		fake.parseDataPullUpLengthsReturnsOnCall = make(map[int]struct {
-			result1 []int
-		})
-	}
-	fake.parseDataPullUpLengthsReturnsOnCall[i] = struct {
-		result1 []int
-	}{result1}
-}
-
-func (fake *FakeDHT11Sensor) CalculateBits(pullUpLengths []int) []bool {
-	var pullUpLengthsCopy []int
-	if pullUpLengths != nil {
-		pullUpLengthsCopy = make([]int, len(pullUpLengths))
-		copy(pullUpLengthsCopy, pullUpLengths)
-	}
-	fake.calculateBitsMutex.Lock()
-	ret, specificReturn := fake.calculateBitsReturnsOnCall[len(fake.calculateBitsArgsForCall)]
-	fake.calculateBitsArgsForCall = append(fake.calculateBitsArgsForCall, struct {
-		pullUpLengths []int
-	}{pullUpLengthsCopy})
-	fake.recordInvocation("CalculateBits", []interface{}{pullUpLengthsCopy})
-	fake.calculateBitsMutex.Unlock()
-	if fake.CalculateBitsStub != nil {
-		return fake.CalculateBitsStub(pullUpLengths)
-	}
-	if specificReturn {
-		return ret.result1
-	}
-	return fake.calculateBitsReturns.result1
-}
-
-func (fake *FakeDHT11Sensor) CalculateBitsCallCount() int {
-	fake.calculateBitsMutex.RLock()
-	defer fake.calculateBitsMutex.RUnlock()
-	return len(fake.calculateBitsArgsForCall)
-}
-
-func (fake *FakeDHT11Sensor) CalculateBitsArgsForCall(i int) []int {
-	fake.calculateBitsMutex.RLock()
-	defer fake.calculateBitsMutex.RUnlock()
-	return fake.calculateBitsArgsForCall[i].pullUpLengths
-}
-
-func (fake *FakeDHT11Sensor) CalculateBitsReturns(result1 []bool) {
-	fake.CalculateBitsStub = nil
-	fake.calculateBitsReturns = struct {
-		result1 []bool
-	}{result1}
-}
-
-func (fake *FakeDHT11Sensor) CalculateBitsReturnsOnCall(i int, result1 []bool) {
-	fake.CalculateBitsStub = nil
-	if fake.calculateBitsReturnsOnCall == nil {
-		fake.calculateBitsReturnsOnCall = make(map[int]struct {
-			result1 []bool
-		})
-	}
-	fake.calculateBitsReturnsOnCall[i] = struct {
-		result1 []bool
-	}{result1}
-}
-
-func (fake *FakeDHT11Sensor) BitsToBytes(bits []bool) []byte {
-	var bitsCopy []bool
-	if bits != nil {
-		bitsCopy = make([]bool, len(bits))
-		copy(bitsCopy, bits)
+func (fake *FakeDHT11Sensor) BitsToBytes(arg1 []bool) []byte {
+	var arg1Copy []bool
+	if arg1 != nil {
+		arg1Copy = make([]bool, len(arg1))
+		copy(arg1Copy, arg1)
 	}
 	fake.bitsToBytesMutex.Lock()
 	ret, specificReturn := fake.bitsToBytesReturnsOnCall[len(fake.bitsToBytesArgsForCall)]
 	fake.bitsToBytesArgsForCall = append(fake.bitsToBytesArgsForCall, struct {
-		bits []bool
-	}{bitsCopy})
-	fake.recordInvocation("BitsToBytes", []interface{}{bitsCopy})
+		arg1 []bool
+	}{arg1Copy})
+	fake.recordInvocation("BitsToBytes", []interface{}{arg1Copy})
 	fake.bitsToBytesMutex.Unlock()
 	if fake.BitsToBytesStub != nil {
-		return fake.BitsToBytesStub(bits)
+		return fake.BitsToBytesStub(arg1)
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	return fake.bitsToBytesReturns.result1
+	fakeReturns := fake.bitsToBytesReturns
+	return fakeReturns.result1
 }
 
 func (fake *FakeDHT11Sensor) BitsToBytesCallCount() int {
@@ -321,13 +113,22 @@ func (fake *FakeDHT11Sensor) BitsToBytesCallCount() int {
 	return len(fake.bitsToBytesArgsForCall)
 }
 
+func (fake *FakeDHT11Sensor) BitsToBytesCalls(stub func([]bool) []byte) {
+	fake.bitsToBytesMutex.Lock()
+	defer fake.bitsToBytesMutex.Unlock()
+	fake.BitsToBytesStub = stub
+}
+
 func (fake *FakeDHT11Sensor) BitsToBytesArgsForCall(i int) []bool {
 	fake.bitsToBytesMutex.RLock()
 	defer fake.bitsToBytesMutex.RUnlock()
-	return fake.bitsToBytesArgsForCall[i].bits
+	argsForCall := fake.bitsToBytesArgsForCall[i]
+	return argsForCall.arg1
 }
 
 func (fake *FakeDHT11Sensor) BitsToBytesReturns(result1 []byte) {
+	fake.bitsToBytesMutex.Lock()
+	defer fake.bitsToBytesMutex.Unlock()
 	fake.BitsToBytesStub = nil
 	fake.bitsToBytesReturns = struct {
 		result1 []byte
@@ -335,6 +136,8 @@ func (fake *FakeDHT11Sensor) BitsToBytesReturns(result1 []byte) {
 }
 
 func (fake *FakeDHT11Sensor) BitsToBytesReturnsOnCall(i int, result1 []byte) {
+	fake.bitsToBytesMutex.Lock()
+	defer fake.bitsToBytesMutex.Unlock()
 	fake.BitsToBytesStub = nil
 	if fake.bitsToBytesReturnsOnCall == nil {
 		fake.bitsToBytesReturnsOnCall = make(map[int]struct {
@@ -346,26 +149,92 @@ func (fake *FakeDHT11Sensor) BitsToBytesReturnsOnCall(i int, result1 []byte) {
 	}{result1}
 }
 
-func (fake *FakeDHT11Sensor) CalculateChecksum(payload []byte) byte {
-	var payloadCopy []byte
-	if payload != nil {
-		payloadCopy = make([]byte, len(payload))
-		copy(payloadCopy, payload)
+func (fake *FakeDHT11Sensor) CalculateBits(arg1 []int) []bool {
+	var arg1Copy []int
+	if arg1 != nil {
+		arg1Copy = make([]int, len(arg1))
+		copy(arg1Copy, arg1)
 	}
-	fake.calculateChecksumMutex.Lock()
-	ret, specificReturn := fake.calculateChecksumReturnsOnCall[len(fake.calculateChecksumArgsForCall)]
-	fake.calculateChecksumArgsForCall = append(fake.calculateChecksumArgsForCall, struct {
-		payload []byte
-	}{payloadCopy})
-	fake.recordInvocation("CalculateChecksum", []interface{}{payloadCopy})
-	fake.calculateChecksumMutex.Unlock()
-	if fake.CalculateChecksumStub != nil {
-		return fake.CalculateChecksumStub(payload)
+	fake.calculateBitsMutex.Lock()
+	ret, specificReturn := fake.calculateBitsReturnsOnCall[len(fake.calculateBitsArgsForCall)]
+	fake.calculateBitsArgsForCall = append(fake.calculateBitsArgsForCall, struct {
+		arg1 []int
+	}{arg1Copy})
+	fake.recordInvocation("CalculateBits", []interface{}{arg1Copy})
+	fake.calculateBitsMutex.Unlock()
+	if fake.CalculateBitsStub != nil {
+		return fake.CalculateBitsStub(arg1)
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	return fake.calculateChecksumReturns.result1
+	fakeReturns := fake.calculateBitsReturns
+	return fakeReturns.result1
+}
+
+func (fake *FakeDHT11Sensor) CalculateBitsCallCount() int {
+	fake.calculateBitsMutex.RLock()
+	defer fake.calculateBitsMutex.RUnlock()
+	return len(fake.calculateBitsArgsForCall)
+}
+
+func (fake *FakeDHT11Sensor) CalculateBitsCalls(stub func([]int) []bool) {
+	fake.calculateBitsMutex.Lock()
+	defer fake.calculateBitsMutex.Unlock()
+	fake.CalculateBitsStub = stub
+}
+
+func (fake *FakeDHT11Sensor) CalculateBitsArgsForCall(i int) []int {
+	fake.calculateBitsMutex.RLock()
+	defer fake.calculateBitsMutex.RUnlock()
+	argsForCall := fake.calculateBitsArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeDHT11Sensor) CalculateBitsReturns(result1 []bool) {
+	fake.calculateBitsMutex.Lock()
+	defer fake.calculateBitsMutex.Unlock()
+	fake.CalculateBitsStub = nil
+	fake.calculateBitsReturns = struct {
+		result1 []bool
+	}{result1}
+}
+
+func (fake *FakeDHT11Sensor) CalculateBitsReturnsOnCall(i int, result1 []bool) {
+	fake.calculateBitsMutex.Lock()
+	defer fake.calculateBitsMutex.Unlock()
+	fake.CalculateBitsStub = nil
+	if fake.calculateBitsReturnsOnCall == nil {
+		fake.calculateBitsReturnsOnCall = make(map[int]struct {
+			result1 []bool
+		})
+	}
+	fake.calculateBitsReturnsOnCall[i] = struct {
+		result1 []bool
+	}{result1}
+}
+
+func (fake *FakeDHT11Sensor) CalculateChecksum(arg1 []byte) byte {
+	var arg1Copy []byte
+	if arg1 != nil {
+		arg1Copy = make([]byte, len(arg1))
+		copy(arg1Copy, arg1)
+	}
+	fake.calculateChecksumMutex.Lock()
+	ret, specificReturn := fake.calculateChecksumReturnsOnCall[len(fake.calculateChecksumArgsForCall)]
+	fake.calculateChecksumArgsForCall = append(fake.calculateChecksumArgsForCall, struct {
+		arg1 []byte
+	}{arg1Copy})
+	fake.recordInvocation("CalculateChecksum", []interface{}{arg1Copy})
+	fake.calculateChecksumMutex.Unlock()
+	if fake.CalculateChecksumStub != nil {
+		return fake.CalculateChecksumStub(arg1)
+	}
+	if specificReturn {
+		return ret.result1
+	}
+	fakeReturns := fake.calculateChecksumReturns
+	return fakeReturns.result1
 }
 
 func (fake *FakeDHT11Sensor) CalculateChecksumCallCount() int {
@@ -374,13 +243,22 @@ func (fake *FakeDHT11Sensor) CalculateChecksumCallCount() int {
 	return len(fake.calculateChecksumArgsForCall)
 }
 
+func (fake *FakeDHT11Sensor) CalculateChecksumCalls(stub func([]byte) byte) {
+	fake.calculateChecksumMutex.Lock()
+	defer fake.calculateChecksumMutex.Unlock()
+	fake.CalculateChecksumStub = stub
+}
+
 func (fake *FakeDHT11Sensor) CalculateChecksumArgsForCall(i int) []byte {
 	fake.calculateChecksumMutex.RLock()
 	defer fake.calculateChecksumMutex.RUnlock()
-	return fake.calculateChecksumArgsForCall[i].payload
+	argsForCall := fake.calculateChecksumArgsForCall[i]
+	return argsForCall.arg1
 }
 
 func (fake *FakeDHT11Sensor) CalculateChecksumReturns(result1 byte) {
+	fake.calculateChecksumMutex.Lock()
+	defer fake.calculateChecksumMutex.Unlock()
 	fake.CalculateChecksumStub = nil
 	fake.calculateChecksumReturns = struct {
 		result1 byte
@@ -388,6 +266,8 @@ func (fake *FakeDHT11Sensor) CalculateChecksumReturns(result1 byte) {
 }
 
 func (fake *FakeDHT11Sensor) CalculateChecksumReturnsOnCall(i int, result1 byte) {
+	fake.calculateChecksumMutex.Lock()
+	defer fake.calculateChecksumMutex.Unlock()
 	fake.CalculateChecksumStub = nil
 	if fake.calculateChecksumReturnsOnCall == nil {
 		fake.calculateChecksumReturnsOnCall = make(map[int]struct {
@@ -399,23 +279,224 @@ func (fake *FakeDHT11Sensor) CalculateChecksumReturnsOnCall(i int, result1 byte)
 	}{result1}
 }
 
+func (fake *FakeDHT11Sensor) CollectInput() []rpio.State {
+	fake.collectInputMutex.Lock()
+	ret, specificReturn := fake.collectInputReturnsOnCall[len(fake.collectInputArgsForCall)]
+	fake.collectInputArgsForCall = append(fake.collectInputArgsForCall, struct {
+	}{})
+	fake.recordInvocation("CollectInput", []interface{}{})
+	fake.collectInputMutex.Unlock()
+	if fake.CollectInputStub != nil {
+		return fake.CollectInputStub()
+	}
+	if specificReturn {
+		return ret.result1
+	}
+	fakeReturns := fake.collectInputReturns
+	return fakeReturns.result1
+}
+
+func (fake *FakeDHT11Sensor) CollectInputCallCount() int {
+	fake.collectInputMutex.RLock()
+	defer fake.collectInputMutex.RUnlock()
+	return len(fake.collectInputArgsForCall)
+}
+
+func (fake *FakeDHT11Sensor) CollectInputCalls(stub func() []rpio.State) {
+	fake.collectInputMutex.Lock()
+	defer fake.collectInputMutex.Unlock()
+	fake.CollectInputStub = stub
+}
+
+func (fake *FakeDHT11Sensor) CollectInputReturns(result1 []rpio.State) {
+	fake.collectInputMutex.Lock()
+	defer fake.collectInputMutex.Unlock()
+	fake.CollectInputStub = nil
+	fake.collectInputReturns = struct {
+		result1 []rpio.State
+	}{result1}
+}
+
+func (fake *FakeDHT11Sensor) CollectInputReturnsOnCall(i int, result1 []rpio.State) {
+	fake.collectInputMutex.Lock()
+	defer fake.collectInputMutex.Unlock()
+	fake.CollectInputStub = nil
+	if fake.collectInputReturnsOnCall == nil {
+		fake.collectInputReturnsOnCall = make(map[int]struct {
+			result1 []rpio.State
+		})
+	}
+	fake.collectInputReturnsOnCall[i] = struct {
+		result1 []rpio.State
+	}{result1}
+}
+
+func (fake *FakeDHT11Sensor) ParseDataPullUpLengths(arg1 []rpio.State) []int {
+	var arg1Copy []rpio.State
+	if arg1 != nil {
+		arg1Copy = make([]rpio.State, len(arg1))
+		copy(arg1Copy, arg1)
+	}
+	fake.parseDataPullUpLengthsMutex.Lock()
+	ret, specificReturn := fake.parseDataPullUpLengthsReturnsOnCall[len(fake.parseDataPullUpLengthsArgsForCall)]
+	fake.parseDataPullUpLengthsArgsForCall = append(fake.parseDataPullUpLengthsArgsForCall, struct {
+		arg1 []rpio.State
+	}{arg1Copy})
+	fake.recordInvocation("ParseDataPullUpLengths", []interface{}{arg1Copy})
+	fake.parseDataPullUpLengthsMutex.Unlock()
+	if fake.ParseDataPullUpLengthsStub != nil {
+		return fake.ParseDataPullUpLengthsStub(arg1)
+	}
+	if specificReturn {
+		return ret.result1
+	}
+	fakeReturns := fake.parseDataPullUpLengthsReturns
+	return fakeReturns.result1
+}
+
+func (fake *FakeDHT11Sensor) ParseDataPullUpLengthsCallCount() int {
+	fake.parseDataPullUpLengthsMutex.RLock()
+	defer fake.parseDataPullUpLengthsMutex.RUnlock()
+	return len(fake.parseDataPullUpLengthsArgsForCall)
+}
+
+func (fake *FakeDHT11Sensor) ParseDataPullUpLengthsCalls(stub func([]rpio.State) []int) {
+	fake.parseDataPullUpLengthsMutex.Lock()
+	defer fake.parseDataPullUpLengthsMutex.Unlock()
+	fake.ParseDataPullUpLengthsStub = stub
+}
+
+func (fake *FakeDHT11Sensor) ParseDataPullUpLengthsArgsForCall(i int) []rpio.State {
+	fake.parseDataPullUpLengthsMutex.RLock()
+	defer fake.parseDataPullUpLengthsMutex.RUnlock()
+	argsForCall := fake.parseDataPullUpLengthsArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeDHT11Sensor) ParseDataPullUpLengthsReturns(result1 []int) {
+	fake.parseDataPullUpLengthsMutex.Lock()
+	defer fake.parseDataPullUpLengthsMutex.Unlock()
+	fake.ParseDataPullUpLengthsStub = nil
+	fake.parseDataPullUpLengthsReturns = struct {
+		result1 []int
+	}{result1}
+}
+
+func (fake *FakeDHT11Sensor) ParseDataPullUpLengthsReturnsOnCall(i int, result1 []int) {
+	fake.parseDataPullUpLengthsMutex.Lock()
+	defer fake.parseDataPullUpLengthsMutex.Unlock()
+	fake.ParseDataPullUpLengthsStub = nil
+	if fake.parseDataPullUpLengthsReturnsOnCall == nil {
+		fake.parseDataPullUpLengthsReturnsOnCall = make(map[int]struct {
+			result1 []int
+		})
+	}
+	fake.parseDataPullUpLengthsReturnsOnCall[i] = struct {
+		result1 []int
+	}{result1}
+}
+
+func (fake *FakeDHT11Sensor) Read() *temperature_monitor.DHT11Result {
+	fake.readMutex.Lock()
+	ret, specificReturn := fake.readReturnsOnCall[len(fake.readArgsForCall)]
+	fake.readArgsForCall = append(fake.readArgsForCall, struct {
+	}{})
+	fake.recordInvocation("Read", []interface{}{})
+	fake.readMutex.Unlock()
+	if fake.ReadStub != nil {
+		return fake.ReadStub()
+	}
+	if specificReturn {
+		return ret.result1
+	}
+	fakeReturns := fake.readReturns
+	return fakeReturns.result1
+}
+
+func (fake *FakeDHT11Sensor) ReadCallCount() int {
+	fake.readMutex.RLock()
+	defer fake.readMutex.RUnlock()
+	return len(fake.readArgsForCall)
+}
+
+func (fake *FakeDHT11Sensor) ReadCalls(stub func() *temperature_monitor.DHT11Result) {
+	fake.readMutex.Lock()
+	defer fake.readMutex.Unlock()
+	fake.ReadStub = stub
+}
+
+func (fake *FakeDHT11Sensor) ReadReturns(result1 *temperature_monitor.DHT11Result) {
+	fake.readMutex.Lock()
+	defer fake.readMutex.Unlock()
+	fake.ReadStub = nil
+	fake.readReturns = struct {
+		result1 *temperature_monitor.DHT11Result
+	}{result1}
+}
+
+func (fake *FakeDHT11Sensor) ReadReturnsOnCall(i int, result1 *temperature_monitor.DHT11Result) {
+	fake.readMutex.Lock()
+	defer fake.readMutex.Unlock()
+	fake.ReadStub = nil
+	if fake.readReturnsOnCall == nil {
+		fake.readReturnsOnCall = make(map[int]struct {
+			result1 *temperature_monitor.DHT11Result
+		})
+	}
+	fake.readReturnsOnCall[i] = struct {
+		result1 *temperature_monitor.DHT11Result
+	}{result1}
+}
+
+func (fake *FakeDHT11Sensor) SendAndSleep(arg1 rpio.State, arg2 time.Duration) {
+	fake.sendAndSleepMutex.Lock()
+	fake.sendAndSleepArgsForCall = append(fake.sendAndSleepArgsForCall, struct {
+		arg1 rpio.State
+		arg2 time.Duration
+	}{arg1, arg2})
+	fake.recordInvocation("SendAndSleep", []interface{}{arg1, arg2})
+	fake.sendAndSleepMutex.Unlock()
+	if fake.SendAndSleepStub != nil {
+		fake.SendAndSleepStub(arg1, arg2)
+	}
+}
+
+func (fake *FakeDHT11Sensor) SendAndSleepCallCount() int {
+	fake.sendAndSleepMutex.RLock()
+	defer fake.sendAndSleepMutex.RUnlock()
+	return len(fake.sendAndSleepArgsForCall)
+}
+
+func (fake *FakeDHT11Sensor) SendAndSleepCalls(stub func(rpio.State, time.Duration)) {
+	fake.sendAndSleepMutex.Lock()
+	defer fake.sendAndSleepMutex.Unlock()
+	fake.SendAndSleepStub = stub
+}
+
+func (fake *FakeDHT11Sensor) SendAndSleepArgsForCall(i int) (rpio.State, time.Duration) {
+	fake.sendAndSleepMutex.RLock()
+	defer fake.sendAndSleepMutex.RUnlock()
+	argsForCall := fake.sendAndSleepArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2
+}
+
 func (fake *FakeDHT11Sensor) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
-	fake.readMutex.RLock()
-	defer fake.readMutex.RUnlock()
-	fake.sendAndSleepMutex.RLock()
-	defer fake.sendAndSleepMutex.RUnlock()
+	fake.bitsToBytesMutex.RLock()
+	defer fake.bitsToBytesMutex.RUnlock()
+	fake.calculateBitsMutex.RLock()
+	defer fake.calculateBitsMutex.RUnlock()
+	fake.calculateChecksumMutex.RLock()
+	defer fake.calculateChecksumMutex.RUnlock()
 	fake.collectInputMutex.RLock()
 	defer fake.collectInputMutex.RUnlock()
 	fake.parseDataPullUpLengthsMutex.RLock()
 	defer fake.parseDataPullUpLengthsMutex.RUnlock()
-	fake.calculateBitsMutex.RLock()
-	defer fake.calculateBitsMutex.RUnlock()
-	fake.bitsToBytesMutex.RLock()
-	defer fake.bitsToBytesMutex.RUnlock()
-	fake.calculateChecksumMutex.RLock()
-	defer fake.calculateChecksumMutex.RUnlock()
+	fake.readMutex.RLock()
+	defer fake.readMutex.RUnlock()
+	fake.sendAndSleepMutex.RLock()
+	defer fake.sendAndSleepMutex.RUnlock()
 	copiedInvocations := map[string][][]interface{}{}
 	for key, value := range fake.invocations {
 		copiedInvocations[key] = value

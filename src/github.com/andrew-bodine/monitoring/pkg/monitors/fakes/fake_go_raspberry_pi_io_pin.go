@@ -5,128 +5,109 @@ import (
 	"sync"
 
 	"github.com/andrew-bodine/monitoring/pkg/monitors"
-	gorpio "github.com/stianeikeland/go-rpio"
+	rpio "github.com/stianeikeland/go-rpio"
 )
 
 type FakeGoRaspberryPiIOPin struct {
-	InputStub         func()
-	inputMutex        sync.RWMutex
-	inputArgsForCall  []struct{}
-	OutputStub        func()
-	outputMutex       sync.RWMutex
-	outputArgsForCall []struct{}
-	ClockStub         func()
-	clockMutex        sync.RWMutex
-	clockArgsForCall  []struct{}
-	PwmStub           func()
-	pwmMutex          sync.RWMutex
-	pwmArgsForCall    []struct{}
-	HighStub          func()
-	highMutex         sync.RWMutex
-	highArgsForCall   []struct{}
-	LowStub           func()
-	lowMutex          sync.RWMutex
-	lowArgsForCall    []struct{}
-	ToggleStub        func()
-	toggleMutex       sync.RWMutex
-	toggleArgsForCall []struct{}
-	FreqStub          func(freq int)
-	freqMutex         sync.RWMutex
-	freqArgsForCall   []struct {
-		freq int
+	ClockStub        func()
+	clockMutex       sync.RWMutex
+	clockArgsForCall []struct {
 	}
-	DutyCycleStub        func(dutyLen, cycleLen uint32)
+	DetectStub        func(rpio.Edge)
+	detectMutex       sync.RWMutex
+	detectArgsForCall []struct {
+		arg1 rpio.Edge
+	}
+	DutyCycleStub        func(uint32, uint32)
 	dutyCycleMutex       sync.RWMutex
 	dutyCycleArgsForCall []struct {
-		dutyLen  uint32
-		cycleLen uint32
-	}
-	ModeStub        func(mode gorpio.Mode)
-	modeMutex       sync.RWMutex
-	modeArgsForCall []struct {
-		mode gorpio.Mode
-	}
-	WriteStub        func(state gorpio.State)
-	writeMutex       sync.RWMutex
-	writeArgsForCall []struct {
-		state gorpio.State
-	}
-	ReadStub        func() gorpio.State
-	readMutex       sync.RWMutex
-	readArgsForCall []struct{}
-	readReturns     struct {
-		result1 gorpio.State
-	}
-	readReturnsOnCall map[int]struct {
-		result1 gorpio.State
-	}
-	PullStub        func(pull gorpio.Pull)
-	pullMutex       sync.RWMutex
-	pullArgsForCall []struct {
-		pull gorpio.Pull
-	}
-	PullUpStub          func()
-	pullUpMutex         sync.RWMutex
-	pullUpArgsForCall   []struct{}
-	PullDownStub        func()
-	pullDownMutex       sync.RWMutex
-	pullDownArgsForCall []struct{}
-	PullOffStub         func()
-	pullOffMutex        sync.RWMutex
-	pullOffArgsForCall  []struct{}
-	DetectStub          func(edge gorpio.Edge)
-	detectMutex         sync.RWMutex
-	detectArgsForCall   []struct {
-		edge gorpio.Edge
+		arg1 uint32
+		arg2 uint32
 	}
 	EdgeDetectedStub        func() bool
 	edgeDetectedMutex       sync.RWMutex
-	edgeDetectedArgsForCall []struct{}
-	edgeDetectedReturns     struct {
+	edgeDetectedArgsForCall []struct {
+	}
+	edgeDetectedReturns struct {
 		result1 bool
 	}
 	edgeDetectedReturnsOnCall map[int]struct {
 		result1 bool
 	}
+	FreqStub        func(int)
+	freqMutex       sync.RWMutex
+	freqArgsForCall []struct {
+		arg1 int
+	}
+	HighStub        func()
+	highMutex       sync.RWMutex
+	highArgsForCall []struct {
+	}
+	InputStub        func()
+	inputMutex       sync.RWMutex
+	inputArgsForCall []struct {
+	}
+	LowStub        func()
+	lowMutex       sync.RWMutex
+	lowArgsForCall []struct {
+	}
+	ModeStub        func(rpio.Mode)
+	modeMutex       sync.RWMutex
+	modeArgsForCall []struct {
+		arg1 rpio.Mode
+	}
+	OutputStub        func()
+	outputMutex       sync.RWMutex
+	outputArgsForCall []struct {
+	}
+	PullStub        func(rpio.Pull)
+	pullMutex       sync.RWMutex
+	pullArgsForCall []struct {
+		arg1 rpio.Pull
+	}
+	PullDownStub        func()
+	pullDownMutex       sync.RWMutex
+	pullDownArgsForCall []struct {
+	}
+	PullOffStub        func()
+	pullOffMutex       sync.RWMutex
+	pullOffArgsForCall []struct {
+	}
+	PullUpStub        func()
+	pullUpMutex       sync.RWMutex
+	pullUpArgsForCall []struct {
+	}
+	PwmStub        func()
+	pwmMutex       sync.RWMutex
+	pwmArgsForCall []struct {
+	}
+	ReadStub        func() rpio.State
+	readMutex       sync.RWMutex
+	readArgsForCall []struct {
+	}
+	readReturns struct {
+		result1 rpio.State
+	}
+	readReturnsOnCall map[int]struct {
+		result1 rpio.State
+	}
+	ToggleStub        func()
+	toggleMutex       sync.RWMutex
+	toggleArgsForCall []struct {
+	}
+	WriteStub        func(rpio.State)
+	writeMutex       sync.RWMutex
+	writeArgsForCall []struct {
+		arg1 rpio.State
+	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeGoRaspberryPiIOPin) Input() {
-	fake.inputMutex.Lock()
-	fake.inputArgsForCall = append(fake.inputArgsForCall, struct{}{})
-	fake.recordInvocation("Input", []interface{}{})
-	fake.inputMutex.Unlock()
-	if fake.InputStub != nil {
-		fake.InputStub()
-	}
-}
-
-func (fake *FakeGoRaspberryPiIOPin) InputCallCount() int {
-	fake.inputMutex.RLock()
-	defer fake.inputMutex.RUnlock()
-	return len(fake.inputArgsForCall)
-}
-
-func (fake *FakeGoRaspberryPiIOPin) Output() {
-	fake.outputMutex.Lock()
-	fake.outputArgsForCall = append(fake.outputArgsForCall, struct{}{})
-	fake.recordInvocation("Output", []interface{}{})
-	fake.outputMutex.Unlock()
-	if fake.OutputStub != nil {
-		fake.OutputStub()
-	}
-}
-
-func (fake *FakeGoRaspberryPiIOPin) OutputCallCount() int {
-	fake.outputMutex.RLock()
-	defer fake.outputMutex.RUnlock()
-	return len(fake.outputArgsForCall)
-}
-
 func (fake *FakeGoRaspberryPiIOPin) Clock() {
 	fake.clockMutex.Lock()
-	fake.clockArgsForCall = append(fake.clockArgsForCall, struct{}{})
+	fake.clockArgsForCall = append(fake.clockArgsForCall, struct {
+	}{})
 	fake.recordInvocation("Clock", []interface{}{})
 	fake.clockMutex.Unlock()
 	if fake.ClockStub != nil {
@@ -140,25 +121,162 @@ func (fake *FakeGoRaspberryPiIOPin) ClockCallCount() int {
 	return len(fake.clockArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIOPin) Pwm() {
-	fake.pwmMutex.Lock()
-	fake.pwmArgsForCall = append(fake.pwmArgsForCall, struct{}{})
-	fake.recordInvocation("Pwm", []interface{}{})
-	fake.pwmMutex.Unlock()
-	if fake.PwmStub != nil {
-		fake.PwmStub()
+func (fake *FakeGoRaspberryPiIOPin) ClockCalls(stub func()) {
+	fake.clockMutex.Lock()
+	defer fake.clockMutex.Unlock()
+	fake.ClockStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) Detect(arg1 rpio.Edge) {
+	fake.detectMutex.Lock()
+	fake.detectArgsForCall = append(fake.detectArgsForCall, struct {
+		arg1 rpio.Edge
+	}{arg1})
+	fake.recordInvocation("Detect", []interface{}{arg1})
+	fake.detectMutex.Unlock()
+	if fake.DetectStub != nil {
+		fake.DetectStub(arg1)
 	}
 }
 
-func (fake *FakeGoRaspberryPiIOPin) PwmCallCount() int {
-	fake.pwmMutex.RLock()
-	defer fake.pwmMutex.RUnlock()
-	return len(fake.pwmArgsForCall)
+func (fake *FakeGoRaspberryPiIOPin) DetectCallCount() int {
+	fake.detectMutex.RLock()
+	defer fake.detectMutex.RUnlock()
+	return len(fake.detectArgsForCall)
+}
+
+func (fake *FakeGoRaspberryPiIOPin) DetectCalls(stub func(rpio.Edge)) {
+	fake.detectMutex.Lock()
+	defer fake.detectMutex.Unlock()
+	fake.DetectStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) DetectArgsForCall(i int) rpio.Edge {
+	fake.detectMutex.RLock()
+	defer fake.detectMutex.RUnlock()
+	argsForCall := fake.detectArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeGoRaspberryPiIOPin) DutyCycle(arg1 uint32, arg2 uint32) {
+	fake.dutyCycleMutex.Lock()
+	fake.dutyCycleArgsForCall = append(fake.dutyCycleArgsForCall, struct {
+		arg1 uint32
+		arg2 uint32
+	}{arg1, arg2})
+	fake.recordInvocation("DutyCycle", []interface{}{arg1, arg2})
+	fake.dutyCycleMutex.Unlock()
+	if fake.DutyCycleStub != nil {
+		fake.DutyCycleStub(arg1, arg2)
+	}
+}
+
+func (fake *FakeGoRaspberryPiIOPin) DutyCycleCallCount() int {
+	fake.dutyCycleMutex.RLock()
+	defer fake.dutyCycleMutex.RUnlock()
+	return len(fake.dutyCycleArgsForCall)
+}
+
+func (fake *FakeGoRaspberryPiIOPin) DutyCycleCalls(stub func(uint32, uint32)) {
+	fake.dutyCycleMutex.Lock()
+	defer fake.dutyCycleMutex.Unlock()
+	fake.DutyCycleStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) DutyCycleArgsForCall(i int) (uint32, uint32) {
+	fake.dutyCycleMutex.RLock()
+	defer fake.dutyCycleMutex.RUnlock()
+	argsForCall := fake.dutyCycleArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2
+}
+
+func (fake *FakeGoRaspberryPiIOPin) EdgeDetected() bool {
+	fake.edgeDetectedMutex.Lock()
+	ret, specificReturn := fake.edgeDetectedReturnsOnCall[len(fake.edgeDetectedArgsForCall)]
+	fake.edgeDetectedArgsForCall = append(fake.edgeDetectedArgsForCall, struct {
+	}{})
+	fake.recordInvocation("EdgeDetected", []interface{}{})
+	fake.edgeDetectedMutex.Unlock()
+	if fake.EdgeDetectedStub != nil {
+		return fake.EdgeDetectedStub()
+	}
+	if specificReturn {
+		return ret.result1
+	}
+	fakeReturns := fake.edgeDetectedReturns
+	return fakeReturns.result1
+}
+
+func (fake *FakeGoRaspberryPiIOPin) EdgeDetectedCallCount() int {
+	fake.edgeDetectedMutex.RLock()
+	defer fake.edgeDetectedMutex.RUnlock()
+	return len(fake.edgeDetectedArgsForCall)
+}
+
+func (fake *FakeGoRaspberryPiIOPin) EdgeDetectedCalls(stub func() bool) {
+	fake.edgeDetectedMutex.Lock()
+	defer fake.edgeDetectedMutex.Unlock()
+	fake.EdgeDetectedStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) EdgeDetectedReturns(result1 bool) {
+	fake.edgeDetectedMutex.Lock()
+	defer fake.edgeDetectedMutex.Unlock()
+	fake.EdgeDetectedStub = nil
+	fake.edgeDetectedReturns = struct {
+		result1 bool
+	}{result1}
+}
+
+func (fake *FakeGoRaspberryPiIOPin) EdgeDetectedReturnsOnCall(i int, result1 bool) {
+	fake.edgeDetectedMutex.Lock()
+	defer fake.edgeDetectedMutex.Unlock()
+	fake.EdgeDetectedStub = nil
+	if fake.edgeDetectedReturnsOnCall == nil {
+		fake.edgeDetectedReturnsOnCall = make(map[int]struct {
+			result1 bool
+		})
+	}
+	fake.edgeDetectedReturnsOnCall[i] = struct {
+		result1 bool
+	}{result1}
+}
+
+func (fake *FakeGoRaspberryPiIOPin) Freq(arg1 int) {
+	fake.freqMutex.Lock()
+	fake.freqArgsForCall = append(fake.freqArgsForCall, struct {
+		arg1 int
+	}{arg1})
+	fake.recordInvocation("Freq", []interface{}{arg1})
+	fake.freqMutex.Unlock()
+	if fake.FreqStub != nil {
+		fake.FreqStub(arg1)
+	}
+}
+
+func (fake *FakeGoRaspberryPiIOPin) FreqCallCount() int {
+	fake.freqMutex.RLock()
+	defer fake.freqMutex.RUnlock()
+	return len(fake.freqArgsForCall)
+}
+
+func (fake *FakeGoRaspberryPiIOPin) FreqCalls(stub func(int)) {
+	fake.freqMutex.Lock()
+	defer fake.freqMutex.Unlock()
+	fake.FreqStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) FreqArgsForCall(i int) int {
+	fake.freqMutex.RLock()
+	defer fake.freqMutex.RUnlock()
+	argsForCall := fake.freqArgsForCall[i]
+	return argsForCall.arg1
 }
 
 func (fake *FakeGoRaspberryPiIOPin) High() {
 	fake.highMutex.Lock()
-	fake.highArgsForCall = append(fake.highArgsForCall, struct{}{})
+	fake.highArgsForCall = append(fake.highArgsForCall, struct {
+	}{})
 	fake.recordInvocation("High", []interface{}{})
 	fake.highMutex.Unlock()
 	if fake.HighStub != nil {
@@ -172,9 +290,39 @@ func (fake *FakeGoRaspberryPiIOPin) HighCallCount() int {
 	return len(fake.highArgsForCall)
 }
 
+func (fake *FakeGoRaspberryPiIOPin) HighCalls(stub func()) {
+	fake.highMutex.Lock()
+	defer fake.highMutex.Unlock()
+	fake.HighStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) Input() {
+	fake.inputMutex.Lock()
+	fake.inputArgsForCall = append(fake.inputArgsForCall, struct {
+	}{})
+	fake.recordInvocation("Input", []interface{}{})
+	fake.inputMutex.Unlock()
+	if fake.InputStub != nil {
+		fake.InputStub()
+	}
+}
+
+func (fake *FakeGoRaspberryPiIOPin) InputCallCount() int {
+	fake.inputMutex.RLock()
+	defer fake.inputMutex.RUnlock()
+	return len(fake.inputArgsForCall)
+}
+
+func (fake *FakeGoRaspberryPiIOPin) InputCalls(stub func()) {
+	fake.inputMutex.Lock()
+	defer fake.inputMutex.Unlock()
+	fake.InputStub = stub
+}
+
 func (fake *FakeGoRaspberryPiIOPin) Low() {
 	fake.lowMutex.Lock()
-	fake.lowArgsForCall = append(fake.lowArgsForCall, struct{}{})
+	fake.lowArgsForCall = append(fake.lowArgsForCall, struct {
+	}{})
 	fake.recordInvocation("Low", []interface{}{})
 	fake.lowMutex.Unlock()
 	if fake.LowStub != nil {
@@ -188,80 +336,21 @@ func (fake *FakeGoRaspberryPiIOPin) LowCallCount() int {
 	return len(fake.lowArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIOPin) Toggle() {
-	fake.toggleMutex.Lock()
-	fake.toggleArgsForCall = append(fake.toggleArgsForCall, struct{}{})
-	fake.recordInvocation("Toggle", []interface{}{})
-	fake.toggleMutex.Unlock()
-	if fake.ToggleStub != nil {
-		fake.ToggleStub()
-	}
+func (fake *FakeGoRaspberryPiIOPin) LowCalls(stub func()) {
+	fake.lowMutex.Lock()
+	defer fake.lowMutex.Unlock()
+	fake.LowStub = stub
 }
 
-func (fake *FakeGoRaspberryPiIOPin) ToggleCallCount() int {
-	fake.toggleMutex.RLock()
-	defer fake.toggleMutex.RUnlock()
-	return len(fake.toggleArgsForCall)
-}
-
-func (fake *FakeGoRaspberryPiIOPin) Freq(freq int) {
-	fake.freqMutex.Lock()
-	fake.freqArgsForCall = append(fake.freqArgsForCall, struct {
-		freq int
-	}{freq})
-	fake.recordInvocation("Freq", []interface{}{freq})
-	fake.freqMutex.Unlock()
-	if fake.FreqStub != nil {
-		fake.FreqStub(freq)
-	}
-}
-
-func (fake *FakeGoRaspberryPiIOPin) FreqCallCount() int {
-	fake.freqMutex.RLock()
-	defer fake.freqMutex.RUnlock()
-	return len(fake.freqArgsForCall)
-}
-
-func (fake *FakeGoRaspberryPiIOPin) FreqArgsForCall(i int) int {
-	fake.freqMutex.RLock()
-	defer fake.freqMutex.RUnlock()
-	return fake.freqArgsForCall[i].freq
-}
-
-func (fake *FakeGoRaspberryPiIOPin) DutyCycle(dutyLen uint32, cycleLen uint32) {
-	fake.dutyCycleMutex.Lock()
-	fake.dutyCycleArgsForCall = append(fake.dutyCycleArgsForCall, struct {
-		dutyLen  uint32
-		cycleLen uint32
-	}{dutyLen, cycleLen})
-	fake.recordInvocation("DutyCycle", []interface{}{dutyLen, cycleLen})
-	fake.dutyCycleMutex.Unlock()
-	if fake.DutyCycleStub != nil {
-		fake.DutyCycleStub(dutyLen, cycleLen)
-	}
-}
-
-func (fake *FakeGoRaspberryPiIOPin) DutyCycleCallCount() int {
-	fake.dutyCycleMutex.RLock()
-	defer fake.dutyCycleMutex.RUnlock()
-	return len(fake.dutyCycleArgsForCall)
-}
-
-func (fake *FakeGoRaspberryPiIOPin) DutyCycleArgsForCall(i int) (uint32, uint32) {
-	fake.dutyCycleMutex.RLock()
-	defer fake.dutyCycleMutex.RUnlock()
-	return fake.dutyCycleArgsForCall[i].dutyLen, fake.dutyCycleArgsForCall[i].cycleLen
-}
-
-func (fake *FakeGoRaspberryPiIOPin) Mode(mode gorpio.Mode) {
+func (fake *FakeGoRaspberryPiIOPin) Mode(arg1 rpio.Mode) {
 	fake.modeMutex.Lock()
 	fake.modeArgsForCall = append(fake.modeArgsForCall, struct {
-		mode gorpio.Mode
-	}{mode})
-	fake.recordInvocation("Mode", []interface{}{mode})
+		arg1 rpio.Mode
+	}{arg1})
+	fake.recordInvocation("Mode", []interface{}{arg1})
 	fake.modeMutex.Unlock()
 	if fake.ModeStub != nil {
-		fake.ModeStub(mode)
+		fake.ModeStub(arg1)
 	}
 }
 
@@ -271,85 +360,51 @@ func (fake *FakeGoRaspberryPiIOPin) ModeCallCount() int {
 	return len(fake.modeArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIOPin) ModeArgsForCall(i int) gorpio.Mode {
+func (fake *FakeGoRaspberryPiIOPin) ModeCalls(stub func(rpio.Mode)) {
+	fake.modeMutex.Lock()
+	defer fake.modeMutex.Unlock()
+	fake.ModeStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) ModeArgsForCall(i int) rpio.Mode {
 	fake.modeMutex.RLock()
 	defer fake.modeMutex.RUnlock()
-	return fake.modeArgsForCall[i].mode
+	argsForCall := fake.modeArgsForCall[i]
+	return argsForCall.arg1
 }
 
-func (fake *FakeGoRaspberryPiIOPin) Write(state gorpio.State) {
-	fake.writeMutex.Lock()
-	fake.writeArgsForCall = append(fake.writeArgsForCall, struct {
-		state gorpio.State
-	}{state})
-	fake.recordInvocation("Write", []interface{}{state})
-	fake.writeMutex.Unlock()
-	if fake.WriteStub != nil {
-		fake.WriteStub(state)
+func (fake *FakeGoRaspberryPiIOPin) Output() {
+	fake.outputMutex.Lock()
+	fake.outputArgsForCall = append(fake.outputArgsForCall, struct {
+	}{})
+	fake.recordInvocation("Output", []interface{}{})
+	fake.outputMutex.Unlock()
+	if fake.OutputStub != nil {
+		fake.OutputStub()
 	}
 }
 
-func (fake *FakeGoRaspberryPiIOPin) WriteCallCount() int {
-	fake.writeMutex.RLock()
-	defer fake.writeMutex.RUnlock()
-	return len(fake.writeArgsForCall)
+func (fake *FakeGoRaspberryPiIOPin) OutputCallCount() int {
+	fake.outputMutex.RLock()
+	defer fake.outputMutex.RUnlock()
+	return len(fake.outputArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIOPin) WriteArgsForCall(i int) gorpio.State {
-	fake.writeMutex.RLock()
-	defer fake.writeMutex.RUnlock()
-	return fake.writeArgsForCall[i].state
+func (fake *FakeGoRaspberryPiIOPin) OutputCalls(stub func()) {
+	fake.outputMutex.Lock()
+	defer fake.outputMutex.Unlock()
+	fake.OutputStub = stub
 }
 
-func (fake *FakeGoRaspberryPiIOPin) Read() gorpio.State {
-	fake.readMutex.Lock()
-	ret, specificReturn := fake.readReturnsOnCall[len(fake.readArgsForCall)]
-	fake.readArgsForCall = append(fake.readArgsForCall, struct{}{})
-	fake.recordInvocation("Read", []interface{}{})
-	fake.readMutex.Unlock()
-	if fake.ReadStub != nil {
-		return fake.ReadStub()
-	}
-	if specificReturn {
-		return ret.result1
-	}
-	return fake.readReturns.result1
-}
-
-func (fake *FakeGoRaspberryPiIOPin) ReadCallCount() int {
-	fake.readMutex.RLock()
-	defer fake.readMutex.RUnlock()
-	return len(fake.readArgsForCall)
-}
-
-func (fake *FakeGoRaspberryPiIOPin) ReadReturns(result1 gorpio.State) {
-	fake.ReadStub = nil
-	fake.readReturns = struct {
-		result1 gorpio.State
-	}{result1}
-}
-
-func (fake *FakeGoRaspberryPiIOPin) ReadReturnsOnCall(i int, result1 gorpio.State) {
-	fake.ReadStub = nil
-	if fake.readReturnsOnCall == nil {
-		fake.readReturnsOnCall = make(map[int]struct {
-			result1 gorpio.State
-		})
-	}
-	fake.readReturnsOnCall[i] = struct {
-		result1 gorpio.State
-	}{result1}
-}
-
-func (fake *FakeGoRaspberryPiIOPin) Pull(pull gorpio.Pull) {
+func (fake *FakeGoRaspberryPiIOPin) Pull(arg1 rpio.Pull) {
 	fake.pullMutex.Lock()
 	fake.pullArgsForCall = append(fake.pullArgsForCall, struct {
-		pull gorpio.Pull
-	}{pull})
-	fake.recordInvocation("Pull", []interface{}{pull})
+		arg1 rpio.Pull
+	}{arg1})
+	fake.recordInvocation("Pull", []interface{}{arg1})
 	fake.pullMutex.Unlock()
 	if fake.PullStub != nil {
-		fake.PullStub(pull)
+		fake.PullStub(arg1)
 	}
 }
 
@@ -359,31 +414,23 @@ func (fake *FakeGoRaspberryPiIOPin) PullCallCount() int {
 	return len(fake.pullArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIOPin) PullArgsForCall(i int) gorpio.Pull {
+func (fake *FakeGoRaspberryPiIOPin) PullCalls(stub func(rpio.Pull)) {
+	fake.pullMutex.Lock()
+	defer fake.pullMutex.Unlock()
+	fake.PullStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) PullArgsForCall(i int) rpio.Pull {
 	fake.pullMutex.RLock()
 	defer fake.pullMutex.RUnlock()
-	return fake.pullArgsForCall[i].pull
-}
-
-func (fake *FakeGoRaspberryPiIOPin) PullUp() {
-	fake.pullUpMutex.Lock()
-	fake.pullUpArgsForCall = append(fake.pullUpArgsForCall, struct{}{})
-	fake.recordInvocation("PullUp", []interface{}{})
-	fake.pullUpMutex.Unlock()
-	if fake.PullUpStub != nil {
-		fake.PullUpStub()
-	}
-}
-
-func (fake *FakeGoRaspberryPiIOPin) PullUpCallCount() int {
-	fake.pullUpMutex.RLock()
-	defer fake.pullUpMutex.RUnlock()
-	return len(fake.pullUpArgsForCall)
+	argsForCall := fake.pullArgsForCall[i]
+	return argsForCall.arg1
 }
 
 func (fake *FakeGoRaspberryPiIOPin) PullDown() {
 	fake.pullDownMutex.Lock()
-	fake.pullDownArgsForCall = append(fake.pullDownArgsForCall, struct{}{})
+	fake.pullDownArgsForCall = append(fake.pullDownArgsForCall, struct {
+	}{})
 	fake.recordInvocation("PullDown", []interface{}{})
 	fake.pullDownMutex.Unlock()
 	if fake.PullDownStub != nil {
@@ -397,9 +444,16 @@ func (fake *FakeGoRaspberryPiIOPin) PullDownCallCount() int {
 	return len(fake.pullDownArgsForCall)
 }
 
+func (fake *FakeGoRaspberryPiIOPin) PullDownCalls(stub func()) {
+	fake.pullDownMutex.Lock()
+	defer fake.pullDownMutex.Unlock()
+	fake.PullDownStub = stub
+}
+
 func (fake *FakeGoRaspberryPiIOPin) PullOff() {
 	fake.pullOffMutex.Lock()
-	fake.pullOffArgsForCall = append(fake.pullOffArgsForCall, struct{}{})
+	fake.pullOffArgsForCall = append(fake.pullOffArgsForCall, struct {
+	}{})
 	fake.recordInvocation("PullOff", []interface{}{})
 	fake.pullOffMutex.Unlock()
 	if fake.PullOffStub != nil {
@@ -413,109 +467,203 @@ func (fake *FakeGoRaspberryPiIOPin) PullOffCallCount() int {
 	return len(fake.pullOffArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIOPin) Detect(edge gorpio.Edge) {
-	fake.detectMutex.Lock()
-	fake.detectArgsForCall = append(fake.detectArgsForCall, struct {
-		edge gorpio.Edge
-	}{edge})
-	fake.recordInvocation("Detect", []interface{}{edge})
-	fake.detectMutex.Unlock()
-	if fake.DetectStub != nil {
-		fake.DetectStub(edge)
+func (fake *FakeGoRaspberryPiIOPin) PullOffCalls(stub func()) {
+	fake.pullOffMutex.Lock()
+	defer fake.pullOffMutex.Unlock()
+	fake.PullOffStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) PullUp() {
+	fake.pullUpMutex.Lock()
+	fake.pullUpArgsForCall = append(fake.pullUpArgsForCall, struct {
+	}{})
+	fake.recordInvocation("PullUp", []interface{}{})
+	fake.pullUpMutex.Unlock()
+	if fake.PullUpStub != nil {
+		fake.PullUpStub()
 	}
 }
 
-func (fake *FakeGoRaspberryPiIOPin) DetectCallCount() int {
-	fake.detectMutex.RLock()
-	defer fake.detectMutex.RUnlock()
-	return len(fake.detectArgsForCall)
+func (fake *FakeGoRaspberryPiIOPin) PullUpCallCount() int {
+	fake.pullUpMutex.RLock()
+	defer fake.pullUpMutex.RUnlock()
+	return len(fake.pullUpArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIOPin) DetectArgsForCall(i int) gorpio.Edge {
-	fake.detectMutex.RLock()
-	defer fake.detectMutex.RUnlock()
-	return fake.detectArgsForCall[i].edge
+func (fake *FakeGoRaspberryPiIOPin) PullUpCalls(stub func()) {
+	fake.pullUpMutex.Lock()
+	defer fake.pullUpMutex.Unlock()
+	fake.PullUpStub = stub
 }
 
-func (fake *FakeGoRaspberryPiIOPin) EdgeDetected() bool {
-	fake.edgeDetectedMutex.Lock()
-	ret, specificReturn := fake.edgeDetectedReturnsOnCall[len(fake.edgeDetectedArgsForCall)]
-	fake.edgeDetectedArgsForCall = append(fake.edgeDetectedArgsForCall, struct{}{})
-	fake.recordInvocation("EdgeDetected", []interface{}{})
-	fake.edgeDetectedMutex.Unlock()
-	if fake.EdgeDetectedStub != nil {
-		return fake.EdgeDetectedStub()
+func (fake *FakeGoRaspberryPiIOPin) Pwm() {
+	fake.pwmMutex.Lock()
+	fake.pwmArgsForCall = append(fake.pwmArgsForCall, struct {
+	}{})
+	fake.recordInvocation("Pwm", []interface{}{})
+	fake.pwmMutex.Unlock()
+	if fake.PwmStub != nil {
+		fake.PwmStub()
+	}
+}
+
+func (fake *FakeGoRaspberryPiIOPin) PwmCallCount() int {
+	fake.pwmMutex.RLock()
+	defer fake.pwmMutex.RUnlock()
+	return len(fake.pwmArgsForCall)
+}
+
+func (fake *FakeGoRaspberryPiIOPin) PwmCalls(stub func()) {
+	fake.pwmMutex.Lock()
+	defer fake.pwmMutex.Unlock()
+	fake.PwmStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) Read() rpio.State {
+	fake.readMutex.Lock()
+	ret, specificReturn := fake.readReturnsOnCall[len(fake.readArgsForCall)]
+	fake.readArgsForCall = append(fake.readArgsForCall, struct {
+	}{})
+	fake.recordInvocation("Read", []interface{}{})
+	fake.readMutex.Unlock()
+	if fake.ReadStub != nil {
+		return fake.ReadStub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	return fake.edgeDetectedReturns.result1
+	fakeReturns := fake.readReturns
+	return fakeReturns.result1
 }
 
-func (fake *FakeGoRaspberryPiIOPin) EdgeDetectedCallCount() int {
-	fake.edgeDetectedMutex.RLock()
-	defer fake.edgeDetectedMutex.RUnlock()
-	return len(fake.edgeDetectedArgsForCall)
+func (fake *FakeGoRaspberryPiIOPin) ReadCallCount() int {
+	fake.readMutex.RLock()
+	defer fake.readMutex.RUnlock()
+	return len(fake.readArgsForCall)
 }
 
-func (fake *FakeGoRaspberryPiIOPin) EdgeDetectedReturns(result1 bool) {
-	fake.EdgeDetectedStub = nil
-	fake.edgeDetectedReturns = struct {
-		result1 bool
+func (fake *FakeGoRaspberryPiIOPin) ReadCalls(stub func() rpio.State) {
+	fake.readMutex.Lock()
+	defer fake.readMutex.Unlock()
+	fake.ReadStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) ReadReturns(result1 rpio.State) {
+	fake.readMutex.Lock()
+	defer fake.readMutex.Unlock()
+	fake.ReadStub = nil
+	fake.readReturns = struct {
+		result1 rpio.State
 	}{result1}
 }
 
-func (fake *FakeGoRaspberryPiIOPin) EdgeDetectedReturnsOnCall(i int, result1 bool) {
-	fake.EdgeDetectedStub = nil
-	if fake.edgeDetectedReturnsOnCall == nil {
-		fake.edgeDetectedReturnsOnCall = make(map[int]struct {
-			result1 bool
+func (fake *FakeGoRaspberryPiIOPin) ReadReturnsOnCall(i int, result1 rpio.State) {
+	fake.readMutex.Lock()
+	defer fake.readMutex.Unlock()
+	fake.ReadStub = nil
+	if fake.readReturnsOnCall == nil {
+		fake.readReturnsOnCall = make(map[int]struct {
+			result1 rpio.State
 		})
 	}
-	fake.edgeDetectedReturnsOnCall[i] = struct {
-		result1 bool
+	fake.readReturnsOnCall[i] = struct {
+		result1 rpio.State
 	}{result1}
+}
+
+func (fake *FakeGoRaspberryPiIOPin) Toggle() {
+	fake.toggleMutex.Lock()
+	fake.toggleArgsForCall = append(fake.toggleArgsForCall, struct {
+	}{})
+	fake.recordInvocation("Toggle", []interface{}{})
+	fake.toggleMutex.Unlock()
+	if fake.ToggleStub != nil {
+		fake.ToggleStub()
+	}
+}
+
+func (fake *FakeGoRaspberryPiIOPin) ToggleCallCount() int {
+	fake.toggleMutex.RLock()
+	defer fake.toggleMutex.RUnlock()
+	return len(fake.toggleArgsForCall)
+}
+
+func (fake *FakeGoRaspberryPiIOPin) ToggleCalls(stub func()) {
+	fake.toggleMutex.Lock()
+	defer fake.toggleMutex.Unlock()
+	fake.ToggleStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) Write(arg1 rpio.State) {
+	fake.writeMutex.Lock()
+	fake.writeArgsForCall = append(fake.writeArgsForCall, struct {
+		arg1 rpio.State
+	}{arg1})
+	fake.recordInvocation("Write", []interface{}{arg1})
+	fake.writeMutex.Unlock()
+	if fake.WriteStub != nil {
+		fake.WriteStub(arg1)
+	}
+}
+
+func (fake *FakeGoRaspberryPiIOPin) WriteCallCount() int {
+	fake.writeMutex.RLock()
+	defer fake.writeMutex.RUnlock()
+	return len(fake.writeArgsForCall)
+}
+
+func (fake *FakeGoRaspberryPiIOPin) WriteCalls(stub func(rpio.State)) {
+	fake.writeMutex.Lock()
+	defer fake.writeMutex.Unlock()
+	fake.WriteStub = stub
+}
+
+func (fake *FakeGoRaspberryPiIOPin) WriteArgsForCall(i int) rpio.State {
+	fake.writeMutex.RLock()
+	defer fake.writeMutex.RUnlock()
+	argsForCall := fake.writeArgsForCall[i]
+	return argsForCall.arg1
 }
 
 func (fake *FakeGoRaspberryPiIOPin) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
-	fake.inputMutex.RLock()
-	defer fake.inputMutex.RUnlock()
-	fake.outputMutex.RLock()
-	defer fake.outputMutex.RUnlock()
 	fake.clockMutex.RLock()
 	defer fake.clockMutex.RUnlock()
-	fake.pwmMutex.RLock()
-	defer fake.pwmMutex.RUnlock()
-	fake.highMutex.RLock()
-	defer fake.highMutex.RUnlock()
-	fake.lowMutex.RLock()
-	defer fake.lowMutex.RUnlock()
-	fake.toggleMutex.RLock()
-	defer fake.toggleMutex.RUnlock()
-	fake.freqMutex.RLock()
-	defer fake.freqMutex.RUnlock()
+	fake.detectMutex.RLock()
+	defer fake.detectMutex.RUnlock()
 	fake.dutyCycleMutex.RLock()
 	defer fake.dutyCycleMutex.RUnlock()
+	fake.edgeDetectedMutex.RLock()
+	defer fake.edgeDetectedMutex.RUnlock()
+	fake.freqMutex.RLock()
+	defer fake.freqMutex.RUnlock()
+	fake.highMutex.RLock()
+	defer fake.highMutex.RUnlock()
+	fake.inputMutex.RLock()
+	defer fake.inputMutex.RUnlock()
+	fake.lowMutex.RLock()
+	defer fake.lowMutex.RUnlock()
 	fake.modeMutex.RLock()
 	defer fake.modeMutex.RUnlock()
-	fake.writeMutex.RLock()
-	defer fake.writeMutex.RUnlock()
-	fake.readMutex.RLock()
-	defer fake.readMutex.RUnlock()
+	fake.outputMutex.RLock()
+	defer fake.outputMutex.RUnlock()
 	fake.pullMutex.RLock()
 	defer fake.pullMutex.RUnlock()
-	fake.pullUpMutex.RLock()
-	defer fake.pullUpMutex.RUnlock()
 	fake.pullDownMutex.RLock()
 	defer fake.pullDownMutex.RUnlock()
 	fake.pullOffMutex.RLock()
 	defer fake.pullOffMutex.RUnlock()
-	fake.detectMutex.RLock()
-	defer fake.detectMutex.RUnlock()
-	fake.edgeDetectedMutex.RLock()
-	defer fake.edgeDetectedMutex.RUnlock()
+	fake.pullUpMutex.RLock()
+	defer fake.pullUpMutex.RUnlock()
+	fake.pwmMutex.RLock()
+	defer fake.pwmMutex.RUnlock()
+	fake.readMutex.RLock()
+	defer fake.readMutex.RUnlock()
+	fake.toggleMutex.RLock()
+	defer fake.toggleMutex.RUnlock()
+	fake.writeMutex.RLock()
+	defer fake.writeMutex.RUnlock()
 	copiedInvocations := map[string][][]interface{}{}
 	for key, value := range fake.invocations {
 		copiedInvocations[key] = value
