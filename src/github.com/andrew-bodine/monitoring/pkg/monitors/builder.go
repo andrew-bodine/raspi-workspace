@@ -1,7 +1,13 @@
 package monitors
 
 import (
+	"flag"
+
 	"go.uber.org/zap"
+)
+
+var (
+	VerboseFlag = flag.Bool("v", false, "Enables verbose logging.")
 )
 
 // ConfigWithFlagsAndLoggerConstructor declares an interface for concrete
@@ -35,7 +41,7 @@ func BuildAndRunMonitor(wrapper *ConfigAndBuilderWrapper) error {
 
 	monitor, err := wrapper.MonitorBuilder(config)
 
-	if err != nil {
+	if err != nil || monitor == nil {
 		return err
 	}
 
