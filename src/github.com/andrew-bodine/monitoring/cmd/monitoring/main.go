@@ -38,7 +38,12 @@ func main() {
 	go func() {
 		defer wg.Done()
 
-		if err = runVibrationMonitor(logger); err != nil {
+		err := monitors.BuildAndRunMonitor(&monitors.ConfigAndBuilderWrapper{
+			Logger:            logger,
+			ConfigConstructor: vibrationMonitor.NewConfigFromFlagsWithLogger,
+			MonitorBuilder:    vibrationMonitor.NewVibrationMonitor,
+		})
+		if err != nil {
 			logger.Error("Failed to run vibration monitor:", zap.Error(err))
 			return
 		}
@@ -48,7 +53,12 @@ func main() {
 	go func() {
 		defer wg.Done()
 
-		if err = runTemperatureMonitor(logger); err != nil {
+		err := monitors.BuildAndRunMonitor(&monitors.ConfigAndBuilderWrapper{
+			Logger:            logger,
+			ConfigConstructor: temperatureMonitor.NewConfigFromFlagsWithLogger,
+			MonitorBuilder:    temperatureMonitor.NewTemperatureMonitor,
+		})
+		if err != nil {
 			logger.Error("Failed to run temperature monitor:", zap.Error(err))
 			return
 		}
@@ -57,56 +67,4 @@ func main() {
 	wg.Wait()
 
 	logger.Info("All monitors have shutdown, terminating monitoring.")
-}
-
-func runVibrationMonitor(logger *zap.Logger) error {
-	config, err := vibrationMonitor.NewConfigFromFlags()
-	if err != nil {
-		return err
-	}
-
-	if config == nil {
-		return nil
-	}
-
-	config.Logger = logger
-
-	stopCh := monitors.SetupSignalHandler()
-
-	monitor, err := vibrationMonitor.NewVibrationMonitor(config)
-	if err != nil {
-		return err
-	}
-
-	if err = monitor.Run(stopCh); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func runTemperatureMonitor(logger *zap.Logger) error {
-	config, err := temperatureMonitor.NewConfigFromFlags()
-	if err != nil {
-		return err
-	}
-
-	if config == nil {
-		return nil
-	}
-
-	config.Logger = logger
-
-	stopCh := monitors.SetupSignalHandler()
-
-	monitor, err := temperatureMonitor.NewTemperatureMonitor(config)
-	if err != nil {
-		return err
-	}
-
-	if err = monitor.Run(stopCh); err != nil {
-		return err
-	}
-
-	return nil
 }

@@ -1,7 +1,7 @@
 package vibration_monitor
 
 import (
-	"flag"
+	"errors"
 	"time"
 
 	"github.com/andrew-bodine/monitoring/pkg/monitors"
@@ -10,62 +10,19 @@ import (
 	"go.uber.org/zap"
 )
 
-var (
-	VibrPinFlag         = flag.Int("vibrPin", -1, "Raspberry Pi GPIO pin to monitor for vibrations.")
-	VibrPinPollRateFlag = flag.Duration("vibrPinPollRate", time.Millisecond*500, "How often to check the state of --vibrPin.")
-	VibrMinPeriodFlag   = flag.Duration("vibrMinPeriod", time.Second*15, "Minimum period of sustained vibration that constitutes an event.")
-)
-
-func NewConfigFromFlags() (*VibrationMonitorConfig, error) {
-	if *VibrPinFlag == -1 {
-		return nil, nil
-		// return nil, errors.New("Required flag --vibrPin missing, please specify and try again.")
+func NewVibrationMonitor(config interface{}) (monitors.Monitor, error) {
+	vibrationMonitorConfig, ok := config.(*VibrationMonitorConfig)
+	if !ok {
+		return nil, errors.New("Failed to cast config to a VibrationMonitorConfig")
 	}
 
-	// Get a reference to the desired pin.
-	pin := rpio.Pin(*VibrPinFlag)
-
-	// Set pin in input mode.
-	pin.Input()
-
-	config := VibrationMonitorConfig{
-		GPIOPin:            pin,
-		GPIOPinPollRate:    *VibrPinPollRateFlag,
-		MinVibrationPeriod: *VibrMinPeriodFlag,
-	}
-
-	return &config, nil
-}
-
-// Collection of configurable settings on that are common amongst vibration
-// monitor implementations.
-type VibrationMonitorConfig struct {
-	Logger *zap.Logger
-
-	// Represents the GPIO pin that this monitor is pay attention to.
-	GPIOPin monitors.GoRaspberryPiIOPin
-
-	GPIOPinPollRate time.Duration
-
-	MinVibrationPeriod time.Duration
-}
-
-type VibrationMonitorState string
-
-const (
-	VibrationMonitorStateStill         VibrationMonitorState = "Still"
-	VibrationMonitorStateHalfVibrating VibrationMonitorState = "HalfVibrating"
-	VibrationMonitorStateVibrating     VibrationMonitorState = "Vibrating"
-)
-
-func NewVibrationMonitor(config *VibrationMonitorConfig) (monitors.Monitor, error) {
 	uid, err := uuid.NewV4()
 	if err != nil {
 		return nil, err
 	}
 
 	vm := vibrationMonitor{
-		config: config,
+		config: vibrationMonitorConfig,
 		uid:    uid.String(),
 		state:  VibrationMonitorStateStill,
 	}

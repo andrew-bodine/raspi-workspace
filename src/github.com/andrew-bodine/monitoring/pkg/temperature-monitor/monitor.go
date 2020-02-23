@@ -1,62 +1,31 @@
 package temperature_monitor
 
 import (
-	"flag"
+	"errors"
 	"fmt"
 	"strconv"
 	"time"
 
 	"github.com/andrew-bodine/monitoring/pkg/monitors"
 	uuid "github.com/satori/go.uuid"
-	rpio "github.com/stianeikeland/go-rpio"
 	"go.uber.org/zap"
 )
 
-var (
-	TempPinFlag         = flag.Int("tempPin", -1, "Raspberry Pi GPIO pin to monitor for temperature and humidity changes.")
-	TempPinPollRateFlag = flag.Duration("tempPinPollRate", time.Second*5, "How often to check the state of --tempPin.")
-)
-
-func NewConfigFromFlags() (*TemperatureMonitorConfig, error) {
-	if *TempPinFlag == -1 {
-		return nil, nil
+func NewTemperatureMonitor(config interface{}) (monitors.Monitor, error) {
+	temperatureMonitorConfig, ok := config.(*TemperatureMonitorConfig)
+	if !ok {
+		return nil, errors.New("Failed to cast config to a TemperatureMonitorConfig")
 	}
 
-	pin := rpio.Pin(*TempPinFlag)
-
-	config := TemperatureMonitorConfig{
-		GPIOPin:         pin,
-		GPIOPinPollRate: *TempPinPollRateFlag,
-	}
-
-	return &config, nil
-}
-
-type TemperatureMonitorConfig struct {
-	Logger *zap.Logger
-
-	// Represents the GPIO pin that this monitor is pay attention to.
-	GPIOPin monitors.GoRaspberryPiIOPin
-
-	GPIOPinPollRate time.Duration
-}
-
-type TemperatureMonitorState string
-
-const (
-	TemperatureMonitorStateReady = "Ready"
-)
-
-func NewTemperatureMonitor(config *TemperatureMonitorConfig) (monitors.Monitor, error) {
 	uid, err := uuid.NewV4()
 	if err != nil {
 		return nil, err
 	}
 
-	dht11 := &DHT11{Pin: config.GPIOPin}
+	dht11 := &DHT11{Pin: temperatureMonitorConfig.GPIOPin}
 
 	tm := temperatureMonitor{
-		config: config,
+		config: temperatureMonitorConfig,
 		uid:    uid.String(),
 		dht11:  dht11,
 		state:  TemperatureMonitorStateReady,
