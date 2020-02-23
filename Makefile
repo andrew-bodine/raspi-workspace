@@ -1,6 +1,6 @@
 # This is the Makefile for raspi-workspace.
 
-all: go-deps fakes test build
+all: go-deps codegen test build
 
 # Install all necessary local golang dependencies.
 go-deps:
@@ -28,8 +28,8 @@ unit-tests: ginkgo
 build:
 	./scripts/run-builds.bash
 
-fakes:
-	./scripts/create-fakes.bash
+codegen:
+	./scripts/run-codegen.bash
 
 clean:
 	rm -rf build
