@@ -9,6 +9,33 @@ import (
 	"github.com/andrew-bodine/monitoring/pkg/monitors"
 )
 
+// DHT11Sensor
+//
+// http://kookye.com/2017/06/01/how-to-set-up-temperature-and-humidity-sensor-dht11-on-raspberry-pi-2/
+// http://osoyoo.com/driver/dht11.py
+//
+//go:generate counterfeiter -o fakes/fake_dht11_sensor.go --fake-name FakeDHT11Sensor . DHT11Sensor
+type DHT11Sensor interface {
+	Read() *DHT11Result
+
+	SendAndSleep(state rpio.State, sleepTime time.Duration)
+
+	// During the data transition, every bit of data begins with the 50us
+	// low-voltage-level and ends with a high-voltage-level signal. The length of
+	// the high-voltage-level signal decides whether the bit is “0” or “1”. Data
+	// bit “0” has 26-28us high-voltage length, while data bit “1” has 70us
+	// high-voltage length.
+	CollectInput() []rpio.State
+
+	ParseDataPullUpLengths(states []rpio.State) []int
+
+	CalculateBits(pullUpLengths []int) []bool
+
+	BitsToBytes(bits []bool) []byte
+
+	CalculateChecksum(payload []byte) byte
+}
+
 type DHT11 struct {
 	Pin monitors.GoRaspberryPiIOPin
 }

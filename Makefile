@@ -5,8 +5,8 @@ ginkgo:
 
 # test: unit-tests
 #
-# unit-tests: ginkgo
-# 	./scripts/run-unit-tests
+# unit-tests: ginkgo fakes
+# 	./scripts/run-unit-tests.bash
 
 # integration-tests:
 # 	./scripts/run-integration-tests
@@ -15,10 +15,10 @@ ginkgo:
 # 	./scripts/run-integration-tests-local
 
 build:
-	./scripts/run-go-builds
+	./scripts/run-builds.bash
 
-# create-workspace-fakes:
-# 	./scripts/create-workspace-fakes
+fakes:
+	./scripts/create-fakes.bash
 
 # Install all necessary local golang dependencies.
 go-deps:
