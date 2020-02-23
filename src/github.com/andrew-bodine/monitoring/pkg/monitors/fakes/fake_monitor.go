@@ -8,10 +8,20 @@ import (
 )
 
 type FakeMonitor struct {
-	RunStub        func(stopCh <-chan struct{}) error
+	GetStateStub        func() interface{}
+	getStateMutex       sync.RWMutex
+	getStateArgsForCall []struct {
+	}
+	getStateReturns struct {
+		result1 interface{}
+	}
+	getStateReturnsOnCall map[int]struct {
+		result1 interface{}
+	}
+	RunStub        func(<-chan struct{}) error
 	runMutex       sync.RWMutex
 	runArgsForCall []struct {
-		stopCh <-chan struct{}
+		arg1 <-chan struct{}
 	}
 	runReturns struct {
 		result1 error
@@ -19,71 +29,15 @@ type FakeMonitor struct {
 	runReturnsOnCall map[int]struct {
 		result1 error
 	}
-	GetStateStub        func() interface{}
-	getStateMutex       sync.RWMutex
-	getStateArgsForCall []struct{}
-	getStateReturns     struct {
-		result1 interface{}
-	}
-	getStateReturnsOnCall map[int]struct {
-		result1 interface{}
-	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
-}
-
-func (fake *FakeMonitor) Run(stopCh <-chan struct{}) error {
-	fake.runMutex.Lock()
-	ret, specificReturn := fake.runReturnsOnCall[len(fake.runArgsForCall)]
-	fake.runArgsForCall = append(fake.runArgsForCall, struct {
-		stopCh <-chan struct{}
-	}{stopCh})
-	fake.recordInvocation("Run", []interface{}{stopCh})
-	fake.runMutex.Unlock()
-	if fake.RunStub != nil {
-		return fake.RunStub(stopCh)
-	}
-	if specificReturn {
-		return ret.result1
-	}
-	return fake.runReturns.result1
-}
-
-func (fake *FakeMonitor) RunCallCount() int {
-	fake.runMutex.RLock()
-	defer fake.runMutex.RUnlock()
-	return len(fake.runArgsForCall)
-}
-
-func (fake *FakeMonitor) RunArgsForCall(i int) <-chan struct{} {
-	fake.runMutex.RLock()
-	defer fake.runMutex.RUnlock()
-	return fake.runArgsForCall[i].stopCh
-}
-
-func (fake *FakeMonitor) RunReturns(result1 error) {
-	fake.RunStub = nil
-	fake.runReturns = struct {
-		result1 error
-	}{result1}
-}
-
-func (fake *FakeMonitor) RunReturnsOnCall(i int, result1 error) {
-	fake.RunStub = nil
-	if fake.runReturnsOnCall == nil {
-		fake.runReturnsOnCall = make(map[int]struct {
-			result1 error
-		})
-	}
-	fake.runReturnsOnCall[i] = struct {
-		result1 error
-	}{result1}
 }
 
 func (fake *FakeMonitor) GetState() interface{} {
 	fake.getStateMutex.Lock()
 	ret, specificReturn := fake.getStateReturnsOnCall[len(fake.getStateArgsForCall)]
-	fake.getStateArgsForCall = append(fake.getStateArgsForCall, struct{}{})
+	fake.getStateArgsForCall = append(fake.getStateArgsForCall, struct {
+	}{})
 	fake.recordInvocation("GetState", []interface{}{})
 	fake.getStateMutex.Unlock()
 	if fake.GetStateStub != nil {
@@ -92,7 +46,8 @@ func (fake *FakeMonitor) GetState() interface{} {
 	if specificReturn {
 		return ret.result1
 	}
-	return fake.getStateReturns.result1
+	fakeReturns := fake.getStateReturns
+	return fakeReturns.result1
 }
 
 func (fake *FakeMonitor) GetStateCallCount() int {
@@ -101,7 +56,15 @@ func (fake *FakeMonitor) GetStateCallCount() int {
 	return len(fake.getStateArgsForCall)
 }
 
+func (fake *FakeMonitor) GetStateCalls(stub func() interface{}) {
+	fake.getStateMutex.Lock()
+	defer fake.getStateMutex.Unlock()
+	fake.GetStateStub = stub
+}
+
 func (fake *FakeMonitor) GetStateReturns(result1 interface{}) {
+	fake.getStateMutex.Lock()
+	defer fake.getStateMutex.Unlock()
 	fake.GetStateStub = nil
 	fake.getStateReturns = struct {
 		result1 interface{}
@@ -109,6 +72,8 @@ func (fake *FakeMonitor) GetStateReturns(result1 interface{}) {
 }
 
 func (fake *FakeMonitor) GetStateReturnsOnCall(i int, result1 interface{}) {
+	fake.getStateMutex.Lock()
+	defer fake.getStateMutex.Unlock()
 	fake.GetStateStub = nil
 	if fake.getStateReturnsOnCall == nil {
 		fake.getStateReturnsOnCall = make(map[int]struct {
@@ -120,13 +85,73 @@ func (fake *FakeMonitor) GetStateReturnsOnCall(i int, result1 interface{}) {
 	}{result1}
 }
 
+func (fake *FakeMonitor) Run(arg1 <-chan struct{}) error {
+	fake.runMutex.Lock()
+	ret, specificReturn := fake.runReturnsOnCall[len(fake.runArgsForCall)]
+	fake.runArgsForCall = append(fake.runArgsForCall, struct {
+		arg1 <-chan struct{}
+	}{arg1})
+	fake.recordInvocation("Run", []interface{}{arg1})
+	fake.runMutex.Unlock()
+	if fake.RunStub != nil {
+		return fake.RunStub(arg1)
+	}
+	if specificReturn {
+		return ret.result1
+	}
+	fakeReturns := fake.runReturns
+	return fakeReturns.result1
+}
+
+func (fake *FakeMonitor) RunCallCount() int {
+	fake.runMutex.RLock()
+	defer fake.runMutex.RUnlock()
+	return len(fake.runArgsForCall)
+}
+
+func (fake *FakeMonitor) RunCalls(stub func(<-chan struct{}) error) {
+	fake.runMutex.Lock()
+	defer fake.runMutex.Unlock()
+	fake.RunStub = stub
+}
+
+func (fake *FakeMonitor) RunArgsForCall(i int) <-chan struct{} {
+	fake.runMutex.RLock()
+	defer fake.runMutex.RUnlock()
+	argsForCall := fake.runArgsForCall[i]
+	return argsForCall.arg1
+}
+
+func (fake *FakeMonitor) RunReturns(result1 error) {
+	fake.runMutex.Lock()
+	defer fake.runMutex.Unlock()
+	fake.RunStub = nil
+	fake.runReturns = struct {
+		result1 error
+	}{result1}
+}
+
+func (fake *FakeMonitor) RunReturnsOnCall(i int, result1 error) {
+	fake.runMutex.Lock()
+	defer fake.runMutex.Unlock()
+	fake.RunStub = nil
+	if fake.runReturnsOnCall == nil {
+		fake.runReturnsOnCall = make(map[int]struct {
+			result1 error
+		})
+	}
+	fake.runReturnsOnCall[i] = struct {
+		result1 error
+	}{result1}
+}
+
 func (fake *FakeMonitor) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
-	fake.runMutex.RLock()
-	defer fake.runMutex.RUnlock()
 	fake.getStateMutex.RLock()
 	defer fake.getStateMutex.RUnlock()
+	fake.runMutex.RLock()
+	defer fake.runMutex.RUnlock()
 	copiedInvocations := map[string][][]interface{}{}
 	for key, value := range fake.invocations {
 		copiedInvocations[key] = value
