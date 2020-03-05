@@ -14,11 +14,19 @@ pushd ${WORKSPACE}/src/github.com/andrew-bodine > /dev/null
         for buildTarget in $(ls ${pathSegment}); do
             echo "Building ${buildTarget} target from github.com/andrew-bodine/${pathSegment} package."
 
-            time \
-            env GOOS=linux GOARCH=arm GOARM=5 \
-            go build \
-                -o ${output}/${buildTarget} \
+            # Cross-compile the target package.
+            #
+            # TODO: Should this be GOARM=7 ?
+            time env GOOS=linux GOARCH=arm GOARM=5 go build \
+                -o ${output}/${buildTarget}/${buildTarget} \
                 github.com/andrew-bodine/${pathSegment}/${buildTarget}
+
+            # If the target package contains a systemd unit file, copy it to
+            # the build context for packaging.
+            if [ -f ${pathSegment}/${buildTarget}/${buildTarget}@.service ]; then
+                cp ${pathSegment}/${buildTarget}/${buildTarget}@.service \
+                    ${output}/${buildTarget}/
+            fi
         done
     done
 popd > /dev/null

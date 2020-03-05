@@ -4,11 +4,14 @@ all: go-deps codegen test build
 
 # Install all necessary local golang dependencies.
 go-deps:
+	go get github.com/golang/protobuf/protoc-gen-go
 	go get github.com/maxbrunsfeld/counterfeiter
 	go get github.com/onsi/ginkgo
 	go get github.com/onsi/gomega
 	go get github.com/stianeikeland/go-rpio
 	go get github.com/satori/go.uuid
+	go get golang.org/x/sys/unix
+	go get google.golang.org/grpc
 	go get go.uber.org/zap
 
 ginkgo:

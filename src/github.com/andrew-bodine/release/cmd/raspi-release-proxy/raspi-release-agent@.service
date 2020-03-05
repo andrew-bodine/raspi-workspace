@@ -1,0 +1,9 @@
+[Unit]
+Description=Raspi Release Proxy
+Documentation=https://github.com/andrew-bodine/raspi-workspace
+
+[Service]
+ExecStart=/usr/local/bin/raspi-release-proxy
+
+[Install]
+WantedBy=multi-user.target

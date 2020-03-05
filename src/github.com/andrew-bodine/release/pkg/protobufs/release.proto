@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package release.raspi.com;
+
+// NOTE: Run the following to regenerate the golang bindings for these protos:
+// > protoc --go_out=plugins=grpc:. release.proto
+
+service ReleaseService {
+
+    //
+    rpc GetReleases(GetReleasesRequest) returns (ReleasesResponse) {}
+
+    //
+    rpc WatchReleases(WatchReleasesRequest) returns (stream ReleasesResponse) {}
+}
+
+message GetReleasesRequest {}
+
+message WatchReleasesRequest {};
+
+message ReleasesResponse {
+    int32 count = 1;
+
+    repeated Release releases = 16;
+}
+
+// Release contains all the metadata that pertains to a specific raspi release.
+message Release {
+    string identifier = 1;
+    string description = 2;
+    string published_at = 3;
+
+    message Asset {
+        string name = 1;
+        string url = 2;
+    }
+    repeated Asset assets = 16;
+}

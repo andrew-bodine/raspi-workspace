@@ -1,0 +1,9 @@
+[Unit]
+Description=Raspi Release Agent
+Documentation=https://github.com/andrew-bodine/raspi-workspace
+
+[Service]
+ExecStart=/usr/local/bin/raspi-release-agent
+
+[Install]
+WantedBy=multi-user.target
