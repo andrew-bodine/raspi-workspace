@@ -6,6 +6,7 @@ import (
 	"net"
 
 	"github.com/andrew-bodine/release/pkg/os"
+	pb "github.com/andrew-bodine/release/pkg/protobufs"
 	"github.com/andrew-bodine/release/pkg/proxy"
 )
 
@@ -19,7 +20,7 @@ func main() {
 
 	stopCh := os.SetupSignalHandler()
 
-	server := proxy.NewReleaseServer(stopCh)
+	server := proxy.NewReleaseServer(stopCh, tempReleaseLister)
 
 	listener, err := net.Listen("tcp", *proxy.ListenAddressFlag)
 	if err != nil {
@@ -28,4 +29,8 @@ func main() {
 
 	log.Println(serviceName, "starting to listen at", *proxy.ListenAddressFlag)
 	server.Serve(listener)
+}
+
+func tempReleaseLister(opts *proxy.ReleaseListOptions) []pb.Release {
+	return []pb.Release{}
 }
