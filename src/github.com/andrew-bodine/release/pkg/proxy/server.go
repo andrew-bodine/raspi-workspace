@@ -2,7 +2,6 @@ package proxy
 
 import (
 	"context"
-	"log"
 	"net"
 	"time"
 
@@ -60,8 +59,6 @@ func (rs *releaseServer) Stop() {
 }
 
 func (rs *releaseServer) GetReleases(ctx context.Context, req *pb.GetReleasesRequest) (*pb.ReleasesResponse, error) {
-	log.Println("GetReleases called")
-
 	resp := pb.ReleasesResponse{
 		Count:    int32(10),
 		Releases: []*pb.Release{},
@@ -71,8 +68,6 @@ func (rs *releaseServer) GetReleases(ctx context.Context, req *pb.GetReleasesReq
 }
 
 func (rs *releaseServer) WatchReleases(req *pb.WatchReleasesRequest, stream pb.ReleaseService_WatchReleasesServer) error {
-	log.Println("WatchReleases called")
-
 	// TODO: Send current releases.
 
 	// TODO: Append stream to servers memory mapping for current connected agents.

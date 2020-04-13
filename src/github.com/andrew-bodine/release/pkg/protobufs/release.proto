@@ -5,7 +5,7 @@ package release.raspi.com;
 // NOTE: Run the following to regenerate the golang bindings for these protos:
 // > protoc --go_out=plugins=grpc:. release.proto
 
-service ReleaseService {
+service Releases {
 
     //
     rpc GetReleases(GetReleasesRequest) returns (ReleasesResponse) {}
