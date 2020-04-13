@@ -1,3 +1,5 @@
 # raspi-workspace
 
 ![Build Status](https://travis-ci.org/andrew-bodine/raspi-workspace.svg?branch=master)
+
+[Raspi Release Sequence Diagram](https://swimlanes.io/#pVLNboMwDL7zFH4BXoDDpGqVeuuh0x7ATdw2aupEiYHy9guDImAFDrtFkb9fW4xYKuCE0Rs4kSWMlGX9A74oVEYR5B9wMHIrzwUcSOBBgnBxAdBaqF24R49pKnSomGXdcAubMSUlkjLwNsUbC3+4vr1GGUAdp0J1GyXYXYllDP79KGBPQuFhmMAmiigDCXpvDWmoDAJxBcqx0FNWGAc7n46ZlACyhivJ1Fc0rFqxJHVnV3cNrMbsnfaFjcm24+1sINQNlD4Xl7ctrS7l6MRcGsCzKwWY6gW1f+5iOeNEf7aQhcCve9ynLq1DPYO9izstdD6/WWk6jGaG+gE=)
