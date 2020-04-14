@@ -3,6 +3,11 @@
 This service implements the raspi release API specification. Raspi release
 agents consume this service to implement the continuous release strategy.
 
+This service's main jobs are:
+- Cache bundled releases from Github repo.
+- Support a subscription API for release agents to register/un-register with.
+- Schedule individual component releases to interested asgents.
+
 ## Non-Functional Requirements
 [ ] Must support a configurable number of releases per component to cache. Assuming
 an average release size of 10M, if you want to support 1,000 components its
