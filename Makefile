@@ -5,16 +5,14 @@ all: codegen test build
 setup:
 	./scripts/setup.bash
 
-test: unit-tests
-
-unit-tests:
-	./scripts/run-unit-tests.bash
+test:
+	./scripts/test.bash
 
 build:
-	./scripts/run-builds.bash
+	./scripts/build.bash
 
 codegen:
-	./scripts/run-codegen.bash
+	./scripts/codegen.bash
 
 clean:
 	rm -rf build

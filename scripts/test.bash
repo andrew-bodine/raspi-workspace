@@ -7,19 +7,9 @@ echo "Beginning workspace unit tests."
 export GINKGO_DEFAULT_EVENTUALLY=${GINKGO_DEFAULT_EVENTUALLY:-5s}
 
 SKIP_PACKAGES=""
-
-# Filter out integration test packages.
-pushd ${WORKSPACE}/monitor/pkg > /dev/null
-    for pkg in $(find *monitor* -name cmd); do
-        if [ "${SKIP_PACKAGES}" == "" ]; then
-            SKIP_PACKAGES="${pkg}"
-        else
-            SKIP_PACKAGES="${pkg},${SKIP_PACKAGES}"
-        fi
-    done
-popd > /dev/null
-
 EXIT_CODE=0
+
+echo "Will skip the following packages: ${SKIP_PACKAGES}"
 
 pushd $WORKSPACE > /dev/null
     ginkgo -r -p -keepGoing -randomizeAllSpecs -progress --race -skipPackage=${SKIP_PACKAGES} "$@"
