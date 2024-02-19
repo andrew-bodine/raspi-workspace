@@ -4,22 +4,24 @@ set -e
 
 output=${WORKSPACE}/build
 
+mkdir -p $output
+
 GIT_SHA=$(git rev-parse --verify HEAD || echo "unknown")
 
 echo "Starting build: " $(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 # Build the target packages to the corresponding output build context.
-pushd ${WORKSPACE}/src/github.com/andrew-bodine > /dev/null
-    for pathSegment in $(find * -name cmd); do
+pushd ${WORKSPACE} > /dev/null
+    for pathSegment in "monitor release"; do
         for buildTarget in $(ls ${pathSegment}); do
-            echo "Building ${buildTarget} target from github.com/andrew-bodine/${pathSegment} package."
+            echo "Building ${buildTarget} target from github.com/andrew-bodine/raspi/${pathSegment} package."
 
             # Cross-compile the target package.
             #
             # TODO: Should this be GOARM=7 ?
             time env GOOS=linux GOARCH=arm GOARM=5 go build \
                 -o ${output}/${buildTarget}/${buildTarget} \
-                github.com/andrew-bodine/${pathSegment}/${buildTarget}
+                github.com/andrew-bodine/raspi/${pathSegment}/${buildTarget}
 
             # If the target package contains a systemd unit file, copy it to
             # the build context for packaging.
