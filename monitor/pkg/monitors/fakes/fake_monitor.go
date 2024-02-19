@@ -38,15 +38,16 @@ func (fake *FakeMonitor) GetState() interface{} {
 	ret, specificReturn := fake.getStateReturnsOnCall[len(fake.getStateArgsForCall)]
 	fake.getStateArgsForCall = append(fake.getStateArgsForCall, struct {
 	}{})
+	stub := fake.GetStateStub
+	fakeReturns := fake.getStateReturns
 	fake.recordInvocation("GetState", []interface{}{})
 	fake.getStateMutex.Unlock()
-	if fake.GetStateStub != nil {
-		return fake.GetStateStub()
+	if stub != nil {
+		return stub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.getStateReturns
 	return fakeReturns.result1
 }
 
@@ -91,15 +92,16 @@ func (fake *FakeMonitor) Run(arg1 <-chan struct{}) error {
 	fake.runArgsForCall = append(fake.runArgsForCall, struct {
 		arg1 <-chan struct{}
 	}{arg1})
+	stub := fake.RunStub
+	fakeReturns := fake.runReturns
 	fake.recordInvocation("Run", []interface{}{arg1})
 	fake.runMutex.Unlock()
-	if fake.RunStub != nil {
-		return fake.RunStub(arg1)
+	if stub != nil {
+		return stub(arg1)
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.runReturns
 	return fakeReturns.result1
 }
 

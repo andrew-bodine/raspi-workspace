@@ -108,9 +108,10 @@ func (fake *FakeGoRaspberryPiIOPin) Clock() {
 	fake.clockMutex.Lock()
 	fake.clockArgsForCall = append(fake.clockArgsForCall, struct {
 	}{})
+	stub := fake.ClockStub
 	fake.recordInvocation("Clock", []interface{}{})
 	fake.clockMutex.Unlock()
-	if fake.ClockStub != nil {
+	if stub != nil {
 		fake.ClockStub()
 	}
 }
@@ -132,9 +133,10 @@ func (fake *FakeGoRaspberryPiIOPin) Detect(arg1 rpio.Edge) {
 	fake.detectArgsForCall = append(fake.detectArgsForCall, struct {
 		arg1 rpio.Edge
 	}{arg1})
+	stub := fake.DetectStub
 	fake.recordInvocation("Detect", []interface{}{arg1})
 	fake.detectMutex.Unlock()
-	if fake.DetectStub != nil {
+	if stub != nil {
 		fake.DetectStub(arg1)
 	}
 }
@@ -164,9 +166,10 @@ func (fake *FakeGoRaspberryPiIOPin) DutyCycle(arg1 uint32, arg2 uint32) {
 		arg1 uint32
 		arg2 uint32
 	}{arg1, arg2})
+	stub := fake.DutyCycleStub
 	fake.recordInvocation("DutyCycle", []interface{}{arg1, arg2})
 	fake.dutyCycleMutex.Unlock()
-	if fake.DutyCycleStub != nil {
+	if stub != nil {
 		fake.DutyCycleStub(arg1, arg2)
 	}
 }
@@ -195,15 +198,16 @@ func (fake *FakeGoRaspberryPiIOPin) EdgeDetected() bool {
 	ret, specificReturn := fake.edgeDetectedReturnsOnCall[len(fake.edgeDetectedArgsForCall)]
 	fake.edgeDetectedArgsForCall = append(fake.edgeDetectedArgsForCall, struct {
 	}{})
+	stub := fake.EdgeDetectedStub
+	fakeReturns := fake.edgeDetectedReturns
 	fake.recordInvocation("EdgeDetected", []interface{}{})
 	fake.edgeDetectedMutex.Unlock()
-	if fake.EdgeDetectedStub != nil {
-		return fake.EdgeDetectedStub()
+	if stub != nil {
+		return stub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.edgeDetectedReturns
 	return fakeReturns.result1
 }
 
@@ -247,9 +251,10 @@ func (fake *FakeGoRaspberryPiIOPin) Freq(arg1 int) {
 	fake.freqArgsForCall = append(fake.freqArgsForCall, struct {
 		arg1 int
 	}{arg1})
+	stub := fake.FreqStub
 	fake.recordInvocation("Freq", []interface{}{arg1})
 	fake.freqMutex.Unlock()
-	if fake.FreqStub != nil {
+	if stub != nil {
 		fake.FreqStub(arg1)
 	}
 }
@@ -277,9 +282,10 @@ func (fake *FakeGoRaspberryPiIOPin) High() {
 	fake.highMutex.Lock()
 	fake.highArgsForCall = append(fake.highArgsForCall, struct {
 	}{})
+	stub := fake.HighStub
 	fake.recordInvocation("High", []interface{}{})
 	fake.highMutex.Unlock()
-	if fake.HighStub != nil {
+	if stub != nil {
 		fake.HighStub()
 	}
 }
@@ -300,9 +306,10 @@ func (fake *FakeGoRaspberryPiIOPin) Input() {
 	fake.inputMutex.Lock()
 	fake.inputArgsForCall = append(fake.inputArgsForCall, struct {
 	}{})
+	stub := fake.InputStub
 	fake.recordInvocation("Input", []interface{}{})
 	fake.inputMutex.Unlock()
-	if fake.InputStub != nil {
+	if stub != nil {
 		fake.InputStub()
 	}
 }
@@ -323,9 +330,10 @@ func (fake *FakeGoRaspberryPiIOPin) Low() {
 	fake.lowMutex.Lock()
 	fake.lowArgsForCall = append(fake.lowArgsForCall, struct {
 	}{})
+	stub := fake.LowStub
 	fake.recordInvocation("Low", []interface{}{})
 	fake.lowMutex.Unlock()
-	if fake.LowStub != nil {
+	if stub != nil {
 		fake.LowStub()
 	}
 }
@@ -347,9 +355,10 @@ func (fake *FakeGoRaspberryPiIOPin) Mode(arg1 rpio.Mode) {
 	fake.modeArgsForCall = append(fake.modeArgsForCall, struct {
 		arg1 rpio.Mode
 	}{arg1})
+	stub := fake.ModeStub
 	fake.recordInvocation("Mode", []interface{}{arg1})
 	fake.modeMutex.Unlock()
-	if fake.ModeStub != nil {
+	if stub != nil {
 		fake.ModeStub(arg1)
 	}
 }
@@ -377,9 +386,10 @@ func (fake *FakeGoRaspberryPiIOPin) Output() {
 	fake.outputMutex.Lock()
 	fake.outputArgsForCall = append(fake.outputArgsForCall, struct {
 	}{})
+	stub := fake.OutputStub
 	fake.recordInvocation("Output", []interface{}{})
 	fake.outputMutex.Unlock()
-	if fake.OutputStub != nil {
+	if stub != nil {
 		fake.OutputStub()
 	}
 }
@@ -401,9 +411,10 @@ func (fake *FakeGoRaspberryPiIOPin) Pull(arg1 rpio.Pull) {
 	fake.pullArgsForCall = append(fake.pullArgsForCall, struct {
 		arg1 rpio.Pull
 	}{arg1})
+	stub := fake.PullStub
 	fake.recordInvocation("Pull", []interface{}{arg1})
 	fake.pullMutex.Unlock()
-	if fake.PullStub != nil {
+	if stub != nil {
 		fake.PullStub(arg1)
 	}
 }
@@ -431,9 +442,10 @@ func (fake *FakeGoRaspberryPiIOPin) PullDown() {
 	fake.pullDownMutex.Lock()
 	fake.pullDownArgsForCall = append(fake.pullDownArgsForCall, struct {
 	}{})
+	stub := fake.PullDownStub
 	fake.recordInvocation("PullDown", []interface{}{})
 	fake.pullDownMutex.Unlock()
-	if fake.PullDownStub != nil {
+	if stub != nil {
 		fake.PullDownStub()
 	}
 }
@@ -454,9 +466,10 @@ func (fake *FakeGoRaspberryPiIOPin) PullOff() {
 	fake.pullOffMutex.Lock()
 	fake.pullOffArgsForCall = append(fake.pullOffArgsForCall, struct {
 	}{})
+	stub := fake.PullOffStub
 	fake.recordInvocation("PullOff", []interface{}{})
 	fake.pullOffMutex.Unlock()
-	if fake.PullOffStub != nil {
+	if stub != nil {
 		fake.PullOffStub()
 	}
 }
@@ -477,9 +490,10 @@ func (fake *FakeGoRaspberryPiIOPin) PullUp() {
 	fake.pullUpMutex.Lock()
 	fake.pullUpArgsForCall = append(fake.pullUpArgsForCall, struct {
 	}{})
+	stub := fake.PullUpStub
 	fake.recordInvocation("PullUp", []interface{}{})
 	fake.pullUpMutex.Unlock()
-	if fake.PullUpStub != nil {
+	if stub != nil {
 		fake.PullUpStub()
 	}
 }
@@ -500,9 +514,10 @@ func (fake *FakeGoRaspberryPiIOPin) Pwm() {
 	fake.pwmMutex.Lock()
 	fake.pwmArgsForCall = append(fake.pwmArgsForCall, struct {
 	}{})
+	stub := fake.PwmStub
 	fake.recordInvocation("Pwm", []interface{}{})
 	fake.pwmMutex.Unlock()
-	if fake.PwmStub != nil {
+	if stub != nil {
 		fake.PwmStub()
 	}
 }
@@ -524,15 +539,16 @@ func (fake *FakeGoRaspberryPiIOPin) Read() rpio.State {
 	ret, specificReturn := fake.readReturnsOnCall[len(fake.readArgsForCall)]
 	fake.readArgsForCall = append(fake.readArgsForCall, struct {
 	}{})
+	stub := fake.ReadStub
+	fakeReturns := fake.readReturns
 	fake.recordInvocation("Read", []interface{}{})
 	fake.readMutex.Unlock()
-	if fake.ReadStub != nil {
-		return fake.ReadStub()
+	if stub != nil {
+		return stub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.readReturns
 	return fakeReturns.result1
 }
 
@@ -575,9 +591,10 @@ func (fake *FakeGoRaspberryPiIOPin) Toggle() {
 	fake.toggleMutex.Lock()
 	fake.toggleArgsForCall = append(fake.toggleArgsForCall, struct {
 	}{})
+	stub := fake.ToggleStub
 	fake.recordInvocation("Toggle", []interface{}{})
 	fake.toggleMutex.Unlock()
-	if fake.ToggleStub != nil {
+	if stub != nil {
 		fake.ToggleStub()
 	}
 }
@@ -599,9 +616,10 @@ func (fake *FakeGoRaspberryPiIOPin) Write(arg1 rpio.State) {
 	fake.writeArgsForCall = append(fake.writeArgsForCall, struct {
 		arg1 rpio.State
 	}{arg1})
+	stub := fake.WriteStub
 	fake.recordInvocation("Write", []interface{}{arg1})
 	fake.writeMutex.Unlock()
-	if fake.WriteStub != nil {
+	if stub != nil {
 		fake.WriteStub(arg1)
 	}
 }

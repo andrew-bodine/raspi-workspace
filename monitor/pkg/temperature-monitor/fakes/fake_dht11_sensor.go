@@ -95,15 +95,16 @@ func (fake *FakeDHT11Sensor) BitsToBytes(arg1 []bool) []byte {
 	fake.bitsToBytesArgsForCall = append(fake.bitsToBytesArgsForCall, struct {
 		arg1 []bool
 	}{arg1Copy})
+	stub := fake.BitsToBytesStub
+	fakeReturns := fake.bitsToBytesReturns
 	fake.recordInvocation("BitsToBytes", []interface{}{arg1Copy})
 	fake.bitsToBytesMutex.Unlock()
-	if fake.BitsToBytesStub != nil {
-		return fake.BitsToBytesStub(arg1)
+	if stub != nil {
+		return stub(arg1)
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.bitsToBytesReturns
 	return fakeReturns.result1
 }
 
@@ -160,15 +161,16 @@ func (fake *FakeDHT11Sensor) CalculateBits(arg1 []int) []bool {
 	fake.calculateBitsArgsForCall = append(fake.calculateBitsArgsForCall, struct {
 		arg1 []int
 	}{arg1Copy})
+	stub := fake.CalculateBitsStub
+	fakeReturns := fake.calculateBitsReturns
 	fake.recordInvocation("CalculateBits", []interface{}{arg1Copy})
 	fake.calculateBitsMutex.Unlock()
-	if fake.CalculateBitsStub != nil {
-		return fake.CalculateBitsStub(arg1)
+	if stub != nil {
+		return stub(arg1)
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.calculateBitsReturns
 	return fakeReturns.result1
 }
 
@@ -225,15 +227,16 @@ func (fake *FakeDHT11Sensor) CalculateChecksum(arg1 []byte) byte {
 	fake.calculateChecksumArgsForCall = append(fake.calculateChecksumArgsForCall, struct {
 		arg1 []byte
 	}{arg1Copy})
+	stub := fake.CalculateChecksumStub
+	fakeReturns := fake.calculateChecksumReturns
 	fake.recordInvocation("CalculateChecksum", []interface{}{arg1Copy})
 	fake.calculateChecksumMutex.Unlock()
-	if fake.CalculateChecksumStub != nil {
-		return fake.CalculateChecksumStub(arg1)
+	if stub != nil {
+		return stub(arg1)
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.calculateChecksumReturns
 	return fakeReturns.result1
 }
 
@@ -284,15 +287,16 @@ func (fake *FakeDHT11Sensor) CollectInput() []rpio.State {
 	ret, specificReturn := fake.collectInputReturnsOnCall[len(fake.collectInputArgsForCall)]
 	fake.collectInputArgsForCall = append(fake.collectInputArgsForCall, struct {
 	}{})
+	stub := fake.CollectInputStub
+	fakeReturns := fake.collectInputReturns
 	fake.recordInvocation("CollectInput", []interface{}{})
 	fake.collectInputMutex.Unlock()
-	if fake.CollectInputStub != nil {
-		return fake.CollectInputStub()
+	if stub != nil {
+		return stub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.collectInputReturns
 	return fakeReturns.result1
 }
 
@@ -342,15 +346,16 @@ func (fake *FakeDHT11Sensor) ParseDataPullUpLengths(arg1 []rpio.State) []int {
 	fake.parseDataPullUpLengthsArgsForCall = append(fake.parseDataPullUpLengthsArgsForCall, struct {
 		arg1 []rpio.State
 	}{arg1Copy})
+	stub := fake.ParseDataPullUpLengthsStub
+	fakeReturns := fake.parseDataPullUpLengthsReturns
 	fake.recordInvocation("ParseDataPullUpLengths", []interface{}{arg1Copy})
 	fake.parseDataPullUpLengthsMutex.Unlock()
-	if fake.ParseDataPullUpLengthsStub != nil {
-		return fake.ParseDataPullUpLengthsStub(arg1)
+	if stub != nil {
+		return stub(arg1)
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.parseDataPullUpLengthsReturns
 	return fakeReturns.result1
 }
 
@@ -401,15 +406,16 @@ func (fake *FakeDHT11Sensor) Read() *temperature_monitor.DHT11Result {
 	ret, specificReturn := fake.readReturnsOnCall[len(fake.readArgsForCall)]
 	fake.readArgsForCall = append(fake.readArgsForCall, struct {
 	}{})
+	stub := fake.ReadStub
+	fakeReturns := fake.readReturns
 	fake.recordInvocation("Read", []interface{}{})
 	fake.readMutex.Unlock()
-	if fake.ReadStub != nil {
-		return fake.ReadStub()
+	if stub != nil {
+		return stub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.readReturns
 	return fakeReturns.result1
 }
 
@@ -454,9 +460,10 @@ func (fake *FakeDHT11Sensor) SendAndSleep(arg1 rpio.State, arg2 time.Duration) {
 		arg1 rpio.State
 		arg2 time.Duration
 	}{arg1, arg2})
+	stub := fake.SendAndSleepStub
 	fake.recordInvocation("SendAndSleep", []interface{}{arg1, arg2})
 	fake.sendAndSleepMutex.Unlock()
-	if fake.SendAndSleepStub != nil {
+	if stub != nil {
 		fake.SendAndSleepStub(arg1, arg2)
 	}
 }

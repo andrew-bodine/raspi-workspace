@@ -30,15 +30,17 @@ func (fake *FakeReleaseLister) Spy(arg1 *proxy.ReleaseListOptions) []release_ras
 	fake.argsForCall = append(fake.argsForCall, struct {
 		arg1 *proxy.ReleaseListOptions
 	}{arg1})
+	stub := fake.Stub
+	returns := fake.returns
 	fake.recordInvocation("ReleaseLister", []interface{}{arg1})
 	fake.mutex.Unlock()
-	if fake.Stub != nil {
-		return fake.Stub(arg1)
+	if stub != nil {
+		return stub(arg1)
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	return fake.returns.result1
+	return returns.result1
 }
 
 func (fake *FakeReleaseLister) CallCount() int {

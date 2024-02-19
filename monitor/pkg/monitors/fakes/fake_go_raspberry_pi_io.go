@@ -120,15 +120,16 @@ func (fake *FakeGoRaspberryPiIO) Close() error {
 	ret, specificReturn := fake.closeReturnsOnCall[len(fake.closeArgsForCall)]
 	fake.closeArgsForCall = append(fake.closeArgsForCall, struct {
 	}{})
+	stub := fake.CloseStub
+	fakeReturns := fake.closeReturns
 	fake.recordInvocation("Close", []interface{}{})
 	fake.closeMutex.Unlock()
-	if fake.CloseStub != nil {
-		return fake.CloseStub()
+	if stub != nil {
+		return stub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.closeReturns
 	return fakeReturns.result1
 }
 
@@ -173,9 +174,10 @@ func (fake *FakeGoRaspberryPiIO) DetectEdge(arg1 monitors.GoRaspberryPiIOPin, ar
 		arg1 monitors.GoRaspberryPiIOPin
 		arg2 rpio.Edge
 	}{arg1, arg2})
+	stub := fake.DetectEdgeStub
 	fake.recordInvocation("DetectEdge", []interface{}{arg1, arg2})
 	fake.detectEdgeMutex.Unlock()
-	if fake.DetectEdgeStub != nil {
+	if stub != nil {
 		fake.DetectEdgeStub(arg1, arg2)
 	}
 }
@@ -204,9 +206,10 @@ func (fake *FakeGoRaspberryPiIO) DisableIRQs(arg1 uint64) {
 	fake.disableIRQsArgsForCall = append(fake.disableIRQsArgsForCall, struct {
 		arg1 uint64
 	}{arg1})
+	stub := fake.DisableIRQsStub
 	fake.recordInvocation("DisableIRQs", []interface{}{arg1})
 	fake.disableIRQsMutex.Unlock()
-	if fake.DisableIRQsStub != nil {
+	if stub != nil {
 		fake.DisableIRQsStub(arg1)
 	}
 }
@@ -236,15 +239,16 @@ func (fake *FakeGoRaspberryPiIO) EdgeDetected(arg1 monitors.GoRaspberryPiIOPin) 
 	fake.edgeDetectedArgsForCall = append(fake.edgeDetectedArgsForCall, struct {
 		arg1 monitors.GoRaspberryPiIOPin
 	}{arg1})
+	stub := fake.EdgeDetectedStub
+	fakeReturns := fake.edgeDetectedReturns
 	fake.recordInvocation("EdgeDetected", []interface{}{arg1})
 	fake.edgeDetectedMutex.Unlock()
-	if fake.EdgeDetectedStub != nil {
-		return fake.EdgeDetectedStub(arg1)
+	if stub != nil {
+		return stub(arg1)
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.edgeDetectedReturns
 	return fakeReturns.result1
 }
 
@@ -295,9 +299,10 @@ func (fake *FakeGoRaspberryPiIO) EnableIRQs(arg1 uint64) {
 	fake.enableIRQsArgsForCall = append(fake.enableIRQsArgsForCall, struct {
 		arg1 uint64
 	}{arg1})
+	stub := fake.EnableIRQsStub
 	fake.recordInvocation("EnableIRQs", []interface{}{arg1})
 	fake.enableIRQsMutex.Unlock()
-	if fake.EnableIRQsStub != nil {
+	if stub != nil {
 		fake.EnableIRQsStub(arg1)
 	}
 }
@@ -326,15 +331,16 @@ func (fake *FakeGoRaspberryPiIO) Open() error {
 	ret, specificReturn := fake.openReturnsOnCall[len(fake.openArgsForCall)]
 	fake.openArgsForCall = append(fake.openArgsForCall, struct {
 	}{})
+	stub := fake.OpenStub
+	fakeReturns := fake.openReturns
 	fake.recordInvocation("Open", []interface{}{})
 	fake.openMutex.Unlock()
-	if fake.OpenStub != nil {
-		return fake.OpenStub()
+	if stub != nil {
+		return stub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.openReturns
 	return fakeReturns.result1
 }
 
@@ -379,9 +385,10 @@ func (fake *FakeGoRaspberryPiIO) PinMode(arg1 monitors.GoRaspberryPiIOPin, arg2 
 		arg1 monitors.GoRaspberryPiIOPin
 		arg2 rpio.Mode
 	}{arg1, arg2})
+	stub := fake.PinModeStub
 	fake.recordInvocation("PinMode", []interface{}{arg1, arg2})
 	fake.pinModeMutex.Unlock()
-	if fake.PinModeStub != nil {
+	if stub != nil {
 		fake.PinModeStub(arg1, arg2)
 	}
 }
@@ -411,9 +418,10 @@ func (fake *FakeGoRaspberryPiIO) PullMode(arg1 monitors.GoRaspberryPiIOPin, arg2
 		arg1 monitors.GoRaspberryPiIOPin
 		arg2 rpio.Pull
 	}{arg1, arg2})
+	stub := fake.PullModeStub
 	fake.recordInvocation("PullMode", []interface{}{arg1, arg2})
 	fake.pullModeMutex.Unlock()
-	if fake.PullModeStub != nil {
+	if stub != nil {
 		fake.PullModeStub(arg1, arg2)
 	}
 }
@@ -443,15 +451,16 @@ func (fake *FakeGoRaspberryPiIO) ReadPin(arg1 monitors.GoRaspberryPiIOPin) rpio.
 	fake.readPinArgsForCall = append(fake.readPinArgsForCall, struct {
 		arg1 monitors.GoRaspberryPiIOPin
 	}{arg1})
+	stub := fake.ReadPinStub
+	fakeReturns := fake.readPinReturns
 	fake.recordInvocation("ReadPin", []interface{}{arg1})
 	fake.readPinMutex.Unlock()
-	if fake.ReadPinStub != nil {
-		return fake.ReadPinStub(arg1)
+	if stub != nil {
+		return stub(arg1)
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.readPinReturns
 	return fakeReturns.result1
 }
 
@@ -504,9 +513,10 @@ func (fake *FakeGoRaspberryPiIO) SetDutyCycle(arg1 monitors.GoRaspberryPiIOPin, 
 		arg2 uint32
 		arg3 uint32
 	}{arg1, arg2, arg3})
+	stub := fake.SetDutyCycleStub
 	fake.recordInvocation("SetDutyCycle", []interface{}{arg1, arg2, arg3})
 	fake.setDutyCycleMutex.Unlock()
-	if fake.SetDutyCycleStub != nil {
+	if stub != nil {
 		fake.SetDutyCycleStub(arg1, arg2, arg3)
 	}
 }
@@ -536,9 +546,10 @@ func (fake *FakeGoRaspberryPiIO) SetFreq(arg1 monitors.GoRaspberryPiIOPin, arg2 
 		arg1 monitors.GoRaspberryPiIOPin
 		arg2 int
 	}{arg1, arg2})
+	stub := fake.SetFreqStub
 	fake.recordInvocation("SetFreq", []interface{}{arg1, arg2})
 	fake.setFreqMutex.Unlock()
-	if fake.SetFreqStub != nil {
+	if stub != nil {
 		fake.SetFreqStub(arg1, arg2)
 	}
 }
@@ -566,9 +577,10 @@ func (fake *FakeGoRaspberryPiIO) StartPwm() {
 	fake.startPwmMutex.Lock()
 	fake.startPwmArgsForCall = append(fake.startPwmArgsForCall, struct {
 	}{})
+	stub := fake.StartPwmStub
 	fake.recordInvocation("StartPwm", []interface{}{})
 	fake.startPwmMutex.Unlock()
-	if fake.StartPwmStub != nil {
+	if stub != nil {
 		fake.StartPwmStub()
 	}
 }
@@ -589,9 +601,10 @@ func (fake *FakeGoRaspberryPiIO) StopPwm() {
 	fake.stopPwmMutex.Lock()
 	fake.stopPwmArgsForCall = append(fake.stopPwmArgsForCall, struct {
 	}{})
+	stub := fake.StopPwmStub
 	fake.recordInvocation("StopPwm", []interface{}{})
 	fake.stopPwmMutex.Unlock()
-	if fake.StopPwmStub != nil {
+	if stub != nil {
 		fake.StopPwmStub()
 	}
 }
@@ -613,9 +626,10 @@ func (fake *FakeGoRaspberryPiIO) TogglePin(arg1 monitors.GoRaspberryPiIOPin) {
 	fake.togglePinArgsForCall = append(fake.togglePinArgsForCall, struct {
 		arg1 monitors.GoRaspberryPiIOPin
 	}{arg1})
+	stub := fake.TogglePinStub
 	fake.recordInvocation("TogglePin", []interface{}{arg1})
 	fake.togglePinMutex.Unlock()
-	if fake.TogglePinStub != nil {
+	if stub != nil {
 		fake.TogglePinStub(arg1)
 	}
 }
@@ -645,9 +659,10 @@ func (fake *FakeGoRaspberryPiIO) WritePin(arg1 monitors.GoRaspberryPiIOPin, arg2
 		arg1 monitors.GoRaspberryPiIOPin
 		arg2 rpio.State
 	}{arg1, arg2})
+	stub := fake.WritePinStub
 	fake.recordInvocation("WritePin", []interface{}{arg1, arg2})
 	fake.writePinMutex.Unlock()
-	if fake.WritePinStub != nil {
+	if stub != nil {
 		fake.WritePinStub(arg1, arg2)
 	}
 }

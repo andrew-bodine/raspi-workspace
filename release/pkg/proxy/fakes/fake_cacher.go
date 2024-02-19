@@ -57,15 +57,16 @@ func (fake *FakeCacher) Cache() proxy.ReleaseCache {
 	ret, specificReturn := fake.cacheReturnsOnCall[len(fake.cacheArgsForCall)]
 	fake.cacheArgsForCall = append(fake.cacheArgsForCall, struct {
 	}{})
+	stub := fake.CacheStub
+	fakeReturns := fake.cacheReturns
 	fake.recordInvocation("Cache", []interface{}{})
 	fake.cacheMutex.Unlock()
-	if fake.CacheStub != nil {
-		return fake.CacheStub()
+	if stub != nil {
+		return stub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.cacheReturns
 	return fakeReturns.result1
 }
 
@@ -109,15 +110,16 @@ func (fake *FakeCacher) Run() error {
 	ret, specificReturn := fake.runReturnsOnCall[len(fake.runArgsForCall)]
 	fake.runArgsForCall = append(fake.runArgsForCall, struct {
 	}{})
+	stub := fake.RunStub
+	fakeReturns := fake.runReturns
 	fake.recordInvocation("Run", []interface{}{})
 	fake.runMutex.Unlock()
-	if fake.RunStub != nil {
-		return fake.RunStub()
+	if stub != nil {
+		return stub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.runReturns
 	return fakeReturns.result1
 }
 
@@ -161,15 +163,16 @@ func (fake *FakeCacher) State() proxy.CacherState {
 	ret, specificReturn := fake.stateReturnsOnCall[len(fake.stateArgsForCall)]
 	fake.stateArgsForCall = append(fake.stateArgsForCall, struct {
 	}{})
+	stub := fake.StateStub
+	fakeReturns := fake.stateReturns
 	fake.recordInvocation("State", []interface{}{})
 	fake.stateMutex.Unlock()
-	if fake.StateStub != nil {
-		return fake.StateStub()
+	if stub != nil {
+		return stub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.stateReturns
 	return fakeReturns.result1
 }
 
@@ -213,15 +216,16 @@ func (fake *FakeCacher) Stop() error {
 	ret, specificReturn := fake.stopReturnsOnCall[len(fake.stopArgsForCall)]
 	fake.stopArgsForCall = append(fake.stopArgsForCall, struct {
 	}{})
+	stub := fake.StopStub
+	fakeReturns := fake.stopReturns
 	fake.recordInvocation("Stop", []interface{}{})
 	fake.stopMutex.Unlock()
-	if fake.StopStub != nil {
-		return fake.StopStub()
+	if stub != nil {
+		return stub()
 	}
 	if specificReturn {
 		return ret.result1
 	}
-	fakeReturns := fake.stopReturns
 	return fakeReturns.result1
 }
 
