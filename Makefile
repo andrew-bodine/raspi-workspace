@@ -2,6 +2,9 @@
 
 all: codegen test build
 
+setup:
+	./scripts/setup.bash
+
 test: unit-tests
 
 unit-tests:

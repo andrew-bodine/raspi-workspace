@@ -9,7 +9,7 @@ export GINKGO_DEFAULT_EVENTUALLY=${GINKGO_DEFAULT_EVENTUALLY:-5s}
 SKIP_PACKAGES=""
 
 # Filter out integration test packages.
-pushd ${WORKSPACE} > /dev/null
+pushd ${WORKSPACE}/monitor/pkg > /dev/null
     for pkg in $(find *monitor* -name cmd); do
         if [ "${SKIP_PACKAGES}" == "" ]; then
             SKIP_PACKAGES="${pkg}"

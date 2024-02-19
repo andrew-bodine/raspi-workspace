@@ -5,7 +5,7 @@ set -eu
 echo "Beginning workspace fakes generation."
 
 # Paths to be searched for `go:generate` comments.
-pathsOfInterest="${WORKSPACE}/src/github.com/andrew-bodine"
+pathsOfInterest="${WORKSPACE}"
 
 # Contains uniq found dirs where `go generate` needs to be run.
 uniqueCodegenDirs=""
