@@ -6,7 +6,7 @@ import (
 
 	"github.com/andrew-bodine/raspi/monitor/pkg/monitors"
 	temperatureMonitor "github.com/andrew-bodine/raspi/monitor/pkg/temperature-monitor"
-	vibrationMonitor "github.com/andrew-bodine/raspi/monitor/pkg/vibration-monitor"
+	//vibrationMonitor "github.com/andrew-bodine/raspi/monitor/pkg/vibration-monitor"
 	rpio "github.com/stianeikeland/go-rpio"
 	"go.uber.org/zap"
 )
@@ -34,20 +34,20 @@ func main() {
 
 	var wg sync.WaitGroup
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-
-		err := monitors.BuildAndRunMonitor(&monitors.ConfigAndBuilderWrapper{
-			Logger:            logger,
-			ConfigConstructor: vibrationMonitor.NewConfigFromFlagsWithLogger,
-			MonitorBuilder:    vibrationMonitor.NewVibrationMonitor,
-		})
-		if err != nil {
-			logger.Error("Failed to run vibration monitor:", zap.Error(err))
-			return
-		}
-	}()
+	//wg.Add(1)
+	//go func() {
+//		defer wg.Done()
+//
+//		err := monitors.BuildAndRunMonitor(&monitors.ConfigAndBuilderWrapper{
+//			Logger:            logger,
+//			ConfigConstructor: vibrationMonitor.NewConfigFromFlagsWithLogger,
+//			MonitorBuilder:    vibrationMonitor.NewVibrationMonitor,
+//		})
+//		if err != nil {
+//			logger.Error("Failed to run vibration monitor:", zap.Error(err))
+//			return
+//		}
+//	}()
 
 	wg.Add(1)
 	go func() {
@@ -62,6 +62,7 @@ func main() {
 			logger.Error("Failed to run temperature monitor:", zap.Error(err))
 			return
 		}
+		logger.Info("Temperature monitor has successfully shutdown")
 	}()
 
 	wg.Wait()

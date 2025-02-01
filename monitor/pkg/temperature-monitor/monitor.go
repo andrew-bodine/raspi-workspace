@@ -19,8 +19,6 @@ func NewTemperatureMonitor(config interface{}) (monitors.Monitor, error) {
 
 	uid := uuid.NewV4()
 
-	dht11 := &DHT11{Pin: temperatureMonitorConfig.GPIOPin}
-
 	tm := temperatureMonitor{
 		config: temperatureMonitorConfig,
 		uid:    uid.String(),
@@ -46,7 +44,7 @@ func (tm *temperatureMonitor) Run(stopCh <-chan struct{}) error {
 
 	timer := time.NewTimer(tm.config.GPIOPinPollRate)
 
-	var lastTempC, lastHumidity float64
+	var lastTempC float64
 
 	for {
 		select {
@@ -56,7 +54,6 @@ func (tm *temperatureMonitor) Run(stopCh <-chan struct{}) error {
 			}
 		case _ = <-timer.C:
 
-			// result := tm.dht11.ReadCurrentTempAndHumidity()
 			result := tm.dht11.Read()
 
 			timer = time.NewTimer(tm.config.GPIOPinPollRate)
@@ -69,26 +66,15 @@ func (tm *temperatureMonitor) Run(stopCh <-chan struct{}) error {
 				continue
 			}
 
-			currTempC, tempConvErr := strconv.ParseFloat(fmt.Sprintf("%d.%d", int(result.Temperature[0]), int(result.Temperature[1])), 32)
-			currHumidity, humConvErr := strconv.ParseFloat(fmt.Sprintf("%d.%d", int(result.Humidity[0]), int(result.Humidity[1])), 32)
+			currTempC = result.Temperature
 
-			if tempConvErr != nil || humConvErr != nil {
-				tm.config.Logger.Debug("Failed to parse floats from sensor readings",
-					zap.Error(tempConvErr),
-					zap.Error(humConvErr),
-				)
-				continue
-			}
-
-			if lastTempC != currTempC || lastHumidity != currHumidity {
+			if lastTempC != currTempC {
 				// Convert °C to °F.
 				tm.config.Logger.Info("Current sensor readings",
 					zap.String("temperature", fmt.Sprintf("%.f°F", currTempC*(9/5)+32)),
-					zap.String("humidity", fmt.Sprintf("%d.%d%%", int(result.Humidity[0]), int(result.Humidity[1]))),
 				)
 
 				lastTempC = currTempC
-				lastHumidity = currHumidity
 			}
 
 			break
@@ -96,6 +82,12 @@ func (tm *temperatureMonitor) Run(stopCh <-chan struct{}) error {
 	}
 
 	return nil
+}
+
+
+// Implement the monitors.Monitor interface.
+func (vm *temperatureMonitor) Data() interface{} {
+        return nil
 }
 
 // Implement the monitors.Monitor interface.

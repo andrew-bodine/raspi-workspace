@@ -91,6 +91,11 @@ func (vm *vibrationMonitor) Run(stopCh <-chan struct{}) error {
 }
 
 // Implement the monitors.Monitor interface.
+func (vm *vibrationMonitor) Data() interface{} {
+	return nil
+}
+
+// Implement the monitors.Monitor interface.
 func (vm *vibrationMonitor) GetState() interface{} {
 	return vm.state
 }

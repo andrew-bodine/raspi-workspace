@@ -8,6 +8,16 @@ import (
 )
 
 type FakeMonitor struct {
+	DataStub        func() interface{}
+	dataMutex       sync.RWMutex
+	dataArgsForCall []struct {
+	}
+	dataReturns struct {
+		result1 interface{}
+	}
+	dataReturnsOnCall map[int]struct {
+		result1 interface{}
+	}
 	GetStateStub        func() interface{}
 	getStateMutex       sync.RWMutex
 	getStateArgsForCall []struct {
@@ -31,6 +41,59 @@ type FakeMonitor struct {
 	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
+}
+
+func (fake *FakeMonitor) Data() interface{} {
+	fake.dataMutex.Lock()
+	ret, specificReturn := fake.dataReturnsOnCall[len(fake.dataArgsForCall)]
+	fake.dataArgsForCall = append(fake.dataArgsForCall, struct {
+	}{})
+	stub := fake.DataStub
+	fakeReturns := fake.dataReturns
+	fake.recordInvocation("Data", []interface{}{})
+	fake.dataMutex.Unlock()
+	if stub != nil {
+		return stub()
+	}
+	if specificReturn {
+		return ret.result1
+	}
+	return fakeReturns.result1
+}
+
+func (fake *FakeMonitor) DataCallCount() int {
+	fake.dataMutex.RLock()
+	defer fake.dataMutex.RUnlock()
+	return len(fake.dataArgsForCall)
+}
+
+func (fake *FakeMonitor) DataCalls(stub func() interface{}) {
+	fake.dataMutex.Lock()
+	defer fake.dataMutex.Unlock()
+	fake.DataStub = stub
+}
+
+func (fake *FakeMonitor) DataReturns(result1 interface{}) {
+	fake.dataMutex.Lock()
+	defer fake.dataMutex.Unlock()
+	fake.DataStub = nil
+	fake.dataReturns = struct {
+		result1 interface{}
+	}{result1}
+}
+
+func (fake *FakeMonitor) DataReturnsOnCall(i int, result1 interface{}) {
+	fake.dataMutex.Lock()
+	defer fake.dataMutex.Unlock()
+	fake.DataStub = nil
+	if fake.dataReturnsOnCall == nil {
+		fake.dataReturnsOnCall = make(map[int]struct {
+			result1 interface{}
+		})
+	}
+	fake.dataReturnsOnCall[i] = struct {
+		result1 interface{}
+	}{result1}
 }
 
 func (fake *FakeMonitor) GetState() interface{} {
@@ -150,6 +213,8 @@ func (fake *FakeMonitor) RunReturnsOnCall(i int, result1 error) {
 func (fake *FakeMonitor) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
+	fake.dataMutex.RLock()
+	defer fake.dataMutex.RUnlock()
 	fake.getStateMutex.RLock()
 	defer fake.getStateMutex.RUnlock()
 	fake.runMutex.RLock()
