@@ -3,7 +3,6 @@ package temperature_monitor
 import (
 	"errors"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/andrew-bodine/raspi/monitor/pkg/monitors"
@@ -19,10 +18,12 @@ func NewTemperatureMonitor(config interface{}) (monitors.Monitor, error) {
 
 	uid := uuid.NewV4()
 
+	ds18b20 := &DS18B20{Pin: temperatureMonitorConfig.GPIOPin}
+
 	tm := temperatureMonitor{
 		config: temperatureMonitorConfig,
 		uid:    uid.String(),
-		dht11:  dht11,
+		ds18b20:  ds18b20,
 		state:  TemperatureMonitorStateReady,
 	}
 
@@ -33,7 +34,7 @@ type temperatureMonitor struct {
 	config *TemperatureMonitorConfig
 
 	uid   string
-	dht11 *DHT11
+	ds18b20 *DS18B20
 	state TemperatureMonitorState
 }
 
@@ -44,7 +45,7 @@ func (tm *temperatureMonitor) Run(stopCh <-chan struct{}) error {
 
 	timer := time.NewTimer(tm.config.GPIOPinPollRate)
 
-	var lastTempC float64
+	var currTempC, lastTempC float64
 
 	for {
 		select {
@@ -54,12 +55,12 @@ func (tm *temperatureMonitor) Run(stopCh <-chan struct{}) error {
 			}
 		case _ = <-timer.C:
 
-			result := tm.dht11.Read()
+			result := tm.ds18b20.Read()
 
 			timer = time.NewTimer(tm.config.GPIOPinPollRate)
 
 			if result.Error != ErrorNoError {
-				tm.config.Logger.Debug("Failed to read temperature and humidity sensor",
+				tm.config.Logger.Debug("Failed to read temperature sensor",
 					zap.String("error", string(result.Error)),
 					zap.String("message", result.Message),
 				)
